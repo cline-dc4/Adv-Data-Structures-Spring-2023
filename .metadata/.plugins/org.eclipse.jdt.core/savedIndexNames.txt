@@ -1,0 +1,2 @@
+INDEX VERSION 1.131+D:\Adv-Data-Structures-Spring-2023\.metadata\.plugins\org.eclipse.jdt.core
+1177825846.index

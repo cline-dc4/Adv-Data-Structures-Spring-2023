@@ -1,0 +1,24 @@
+import java.util.ArrayList;
+
+public class ItemList implements ALInterface
+{
+
+	/** an ArrayList that holds Item objects */
+	ArrayList<Item> itemArray = new ArrayList<Item>();
+	
+	/**
+	 * adds an item to the ArrayList
+	 * @param weight the weight of the item
+	 * @param value the value of the item
+	 * @throws Exception when weight <= 0, value < 0.
+	 */
+	public void addItem(double weight, double value) throws Exception 
+	{
+		
+	}
+
+	public int findBestValue() {
+		return 0;
+	}
+
+}
