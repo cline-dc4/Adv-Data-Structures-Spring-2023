@@ -14,12 +14,12 @@ public class ItemList implements ALInterface
 		itemArray = new ArrayList<Item>(10);
 	}
 	
-	/**
-	 * adds an item to the ArrayList
-	 * @param weight the weight of the item
-	 * @param value the value of the item
-	 * @throws Exception when weight <= 0, value < 0.
-	 */
+	/**************************************************
+	 *         adds an item to the ArrayList                     
+	 * @param  weight the weight of the item              
+     * @param  value the value of the item                
+	 * @throws Exception when weight <= 0, value < 0.    
+	 **************************************************/
 	public void addItem(double weight, double value) throws Exception 
 	{
 		if(weight <= 0)
