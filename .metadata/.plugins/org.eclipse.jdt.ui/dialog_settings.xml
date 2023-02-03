@@ -56,4 +56,7 @@
 			<item value="D:\OneDrive\Documents\Corban Classwork\CSC 253\HW\HW01.jar"/>
 		</list>
 	</section>
+	<section name="SelfEncapsulateFieldWizard">
+		<item key="GenerateJavadoc" value="false"/>
+	</section>
 </section>
