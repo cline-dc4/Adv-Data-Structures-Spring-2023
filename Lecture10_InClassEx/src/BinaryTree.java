@@ -1,3 +1,4 @@
+import java.util.Stack;
 
 public class BinaryTree 
 {
@@ -61,5 +62,71 @@ public class BinaryTree
 		// Recursive step
 		return 1 + countNodes(currentNode.getLeftChild()) +
 				countNodes(currentNode.getRightChild());
+	}
+	
+	public String dfs(int key)
+	{
+		String s = "DFS: Searching for " + key + "\n";
+		Node currentNode = rootNode;
+		Stack<Node> stackOfNodes = new Stack<Node>();
+		// push the root node onto the stack
+		stackOfNodes.push(rootNode);
+		while(!stackOfNodes.isEmpty())
+		{
+			currentNode = stackOfNodes.pop();
+			s += (currentNode.getData() + " ");
+			if(currentNode.getData() == key)
+			{
+				s += "Found\n";
+				return s;
+			}
+			else
+			{
+				if(currentNode.getLeftChild() != null)
+				{
+					stackOfNodes.add(currentNode.getLeftChild());
+				}
+				if(currentNode.getRightChild() != null)
+				{
+					stackOfNodes.add(currentNode.getRightChild());
+				}
+			}
+					
+		}
+		s += "Not found\n";
+		return s;
+	}
+	
+	public String bfs(int key)
+	{
+		String s = "DFS: Searching for " + key + "\n";
+		Node currentNode = rootNode;
+		Stack<Node> stackOfNodes = new Stack<Node>();
+		// push the root node onto the stack
+		stackOfNodes.push(rootNode);
+		while(!stackOfNodes.isEmpty())
+		{
+			currentNode = stackOfNodes.pop();
+			s += (currentNode.getData() + " ");
+			if(currentNode.getData() == key)
+			{
+				s += "Found\n";
+				return s;
+			}
+			else
+			{
+				if(currentNode.getLeftChild() != null)
+				{
+					stackOfNodes.add(currentNode.getLeftChild());
+				}
+				if(currentNode.getRightChild() != null)
+				{
+					stackOfNodes.add(currentNode.getRightChild());
+				}
+			}
+					
+		}
+		s += "Not found\n";
+		return s;
 	}
 }

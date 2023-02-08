@@ -30,7 +30,10 @@ public class TestBinaryTree {
 		tree.setRootNode(populateTree());
 		tree.inorderTraversal(tree.getRootNode());
 		tree.preorderTraversal(tree.getRootNode());
-		tree.inorderTraversal(tree.getRootNode());
+		tree.postorderTraversal(tree.getRootNode());
+		System.out.println(tree.dfs(4));
+		System.out.println(tree.dfs(-4));
+		System.out.println(tree.dfs(14));
 		//System.out.println("The height of the tree is: " + tree.getHeightOfTree(tree.getRootNode()));
 		System.out.println("The number of nodes in the tree is: " + tree.countNodes(tree.getRootNode()));
 	}
