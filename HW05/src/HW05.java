@@ -26,14 +26,14 @@ public class HW05 {
 	 * Populating the tree with a set of nodes in order
 	 * @return The root node
 	 */
-	public static Node<Integer> populateTree()
+	public static Node populateTree()
 	{
 		int [] arrayOfNum = {7, 3, 11, 1, 5, 9, 13, 0, 2, 4, 6, 8, 10, 12, 14};
 
-		Node<Integer> [] arrayOfNodes = new Node[15];
+		Node [] arrayOfNodes = new Node[15];
 		for (int i = 0; i < 15; i++)
 		{
-			arrayOfNodes[i] = new Node<Integer>(arrayOfNum[i]);
+			arrayOfNodes[i] = new Node(arrayOfNum[i]);
 		}
 		for (int i = 0; i < 7; i++)
 		{
