@@ -20,7 +20,69 @@ public class BST {
 	
 	public BST()
 	{
-		rootNode = populateTree();
+		//rootNode = populateTree();
+		rootNode = null;
+	}
+	
+	public void addData(int data) throws Exception
+	{
+		// Check if it already exists in the tree
+		if(recursiveSearch(rootNode, data) != null)
+			throw new Exception("Data already exists in the tree.");
+		Node newNode = new Node(data);
+		// Special case: rootNode is null
+		if(rootNode == null)
+			rootNode = newNode;
+		else
+		{
+			Node current = rootNode;
+			Node parent = rootNode;
+			while (current != null)
+			{
+				if (current.getData() < data)
+				{
+					parent = current;
+					current = current.getRightChild();
+				}
+				else
+				{
+					parent = current;
+					current = current.getLeftChild();
+				}
+			}
+			// when we get here, parent is the parent of the new node
+			// TODO: Insert new node as left child/right child depending on how it compares to parent
+		}
+	}
+	
+	public void deleteNode(int dataToDelete) throws Exception
+	{
+		Node nodeToDelete = recursiveSearch(rootNode, dataToDelete);
+		if (nodeToDelete == null)
+			throw new Exception("node to delete does not exist.");
+		// Case 3:
+		if (nodeToDelete.getLeftChild() != null && nodeToDelete.getRightChild() != null)
+		{
+			// find the replacement node
+			Node replacementNode = nodeToDelete.getRightChild();
+			while(replacementNode.getLeftChild() != null)
+			{
+				replacementNode = replacementNode.getLeftChild();
+			}
+			// TODO: copy the data from replacement node to nodeToDelete
+			// Now change it: so replacementNode is the new nodeToDelete
+			nodeToDelete = replacementNode;
+		}
+		// When we get here, we are guaranteed that nodeToDelete is case 1 or case 2.
+		// case 1:
+		if (nodeToDelete.getLeftChild() == null && nodeToDelete.getRightChild() == null)
+		{
+			// TODO: implement case 1
+		}
+		else //case 2:
+		{
+			// TODO: implement case 2
+		}
 	}
 
 	public Node getRootNode()
