@@ -114,4 +114,8 @@ public class BST {
 			return recursiveSearch(currentNode.getLeftChild(), key);
 	}
 	
+	public Node iterativeSearch(int key)
+	{
+		return new Node();
+	}
 }
