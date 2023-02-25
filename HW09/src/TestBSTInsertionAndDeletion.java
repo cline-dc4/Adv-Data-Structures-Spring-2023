@@ -324,7 +324,7 @@ public class TestBSTInsertionAndDeletion {
 		}
 		catch(Exception e)
 		{
-			System.out.println("Error at test number: " + testCount + e.getMessage());
+			System.out.println("Error at test number: " + testCount + " " + e.getMessage());
 		}
 		int [] array = {7, 3, 11, 1, 5, 9, 13, 0, 2, 4, 6, 8, 10, 12, 14};
 		for (int i= 0; i < 15; i++)

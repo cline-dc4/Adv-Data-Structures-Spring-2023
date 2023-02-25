@@ -83,7 +83,7 @@ public class BST
 	 * @throws Exception when dataToDelete is not in tree.
 	 */
 	public void deleteNode(int dataToDelete) throws Exception
-	{
+	{	// TODO: issue with case 3 deleting incorrect node or throwing NPE
 		Node nodeToDelete = recursiveSearch(rootNode, dataToDelete);
 		if (nodeToDelete == null)
 			throw new Exception("node to delete does not exist.");
@@ -96,6 +96,8 @@ public class BST
 			{
 				replacementNode = replacementNode.getLeftChild();
 			}
+			// TODO? copy the data from replacement node to nodeToDelete
+			nodeToDelete.setData(replacementNode.getData());
 			// Now change it: so replacementNode is the new nodeToDelete
 			nodeToDelete = replacementNode;
 		}
@@ -103,13 +105,15 @@ public class BST
 		// case 1:
 		if (nodeToDelete.getLeftChild() == null && nodeToDelete.getRightChild() == null)
 		{
+			//TODO: potential source of error here.
+			
 			// root node:
 			if (nodeToDelete.getParent() == null)
 			{
-				nodeToDelete = null;
+				rootNode = null;
 			}
 			// left leaf:
-			if (nodeToDelete.getParent().getLeftChild() == nodeToDelete)
+			else if (nodeToDelete.getParent().getLeftChild() == nodeToDelete)
 			{
 				nodeToDelete.getParent().setLeftChild(null);
 				nodeToDelete.setParent(null);
@@ -122,9 +126,24 @@ public class BST
 			}
 			
 		}
-		else //case 2:
+		else // case 2:
 		{
-			// TODO: implement case 2
+			//nodeToDelete is a rootNode with one child:
+			if(nodeToDelete.getParent() == null)
+			{
+				if(nodeToDelete.getLeftChild() != null)
+				{
+					rootNode = nodeToDelete.getLeftChild();
+					nodeToDelete.getLeftChild().setParent(null);
+					nodeToDelete = null;
+				}
+				else
+				{
+					rootNode = nodeToDelete.getRightChild();
+					nodeToDelete.getRightChild().setParent(null);
+					nodeToDelete = null;
+				}
+			}
 			// nodeToDelete is parent's right child:
 			if(nodeToDelete.getParent().getRightChild() == nodeToDelete)
 			{
