@@ -1,6 +1,12 @@
 
-public class BST {
+public class BST 
+{
+	/** the root node of the tree. */
 	private Node rootNode;
+	/**
+	 * a function that populates the tree with set values for testing.
+	 * @return the root node.
+	 */
 	public Node populateTree()
 	{
 		int [] arrayOfNum = {7, 3, 11, 1, 5, 9, 13, 0, 2, 4, 6, 8, 10, 12, 14};
@@ -23,7 +29,11 @@ public class BST {
 		//rootNode = populateTree();
 		rootNode = null;
 	}
-	
+	/**
+	 * Adds a node to the tree based on data given.
+	 * @param data the data to be added to the tree
+	 * @throws Exception when data already is in the tree
+	 */
 	public void addData(int data) throws Exception
 	{
 		// Check if it already exists in the tree
@@ -52,9 +62,26 @@ public class BST {
 			}
 			// when we get here, parent is the parent of the new node
 			// TODO: Insert new node as left child/right child depending on how it compares to parent
+			
+			// add to the left if new < parent
+			if(newNode.getData() < parent.getData())
+			{
+				parent.setLeftChild(newNode);
+			}
+			// add to the right if new > parents
+			else
+			{
+				parent.setRightChild(newNode);
+			}
 		}
 	}
 	
+	/**
+	 * deletes a Node in the BST while keeping the tree in
+	 * the BST format.
+	 * @param dataToDelete an int that is the data being deleted.
+	 * @throws Exception when dataToDelete is not in tree.
+	 */
 	public void deleteNode(int dataToDelete) throws Exception
 	{
 		Node nodeToDelete = recursiveSearch(rootNode, dataToDelete);
@@ -69,7 +96,6 @@ public class BST {
 			{
 				replacementNode = replacementNode.getLeftChild();
 			}
-			// TODO: copy the data from replacement node to nodeToDelete
 			// Now change it: so replacementNode is the new nodeToDelete
 			nodeToDelete = replacementNode;
 		}
@@ -77,14 +103,75 @@ public class BST {
 		// case 1:
 		if (nodeToDelete.getLeftChild() == null && nodeToDelete.getRightChild() == null)
 		{
-			// TODO: implement case 1
+			// root node:
+			if (nodeToDelete.getParent() == null)
+			{
+				nodeToDelete = null;
+			}
+			// left leaf:
+			if (nodeToDelete.getParent().getLeftChild() == nodeToDelete)
+			{
+				nodeToDelete.getParent().setLeftChild(null);
+				nodeToDelete.setParent(null);
+			}
+			// right leaf:
+			else
+			{
+				nodeToDelete.getParent().setRightChild(null);
+				nodeToDelete.setParent(null);
+			}
+			
 		}
 		else //case 2:
 		{
 			// TODO: implement case 2
+			// nodeToDelete is parent's right child:
+			if(nodeToDelete.getParent().getRightChild() == nodeToDelete)
+			{
+				// nodeToDelete only has a right child:
+				if(nodeToDelete.getRightChild() != null)
+				{
+					nodeToDelete.getParent().setRightChild(nodeToDelete.getRightChild());
+					nodeToDelete.getRightChild().setParent(nodeToDelete.getParent());
+					nodeToDelete.setParent(null);
+					nodeToDelete.setRightChild(null);
+				}
+				// nodeToDelete only has a left child:
+				else
+				{
+					nodeToDelete.getParent().setRightChild(nodeToDelete.getLeftChild());
+					nodeToDelete.getLeftChild().setParent(nodeToDelete.getParent());
+					nodeToDelete.setParent(null);
+					nodeToDelete.setLeftChild(null);
+				}
+			}
+			// nodeToDelete is parent's left child:
+			else
+			{
+				// nodeToDelete only has a right child:
+				if(nodeToDelete.getRightChild() != null)
+				{
+					nodeToDelete.getParent().setLeftChild(nodeToDelete.getRightChild());
+					nodeToDelete.getRightChild().setParent(nodeToDelete.getParent());
+					nodeToDelete.setParent(null);
+					nodeToDelete.setLeftChild(null);
+				}
+				// nodeToDelete only has a left child:
+				else
+				{
+					nodeToDelete.getParent().setLeftChild(nodeToDelete.getLeftChild());
+					nodeToDelete.getLeftChild().setParent(nodeToDelete.getParent());
+					nodeToDelete.setParent(null);
+					nodeToDelete.setLeftChild(null);
+				}
+			}
 		}
 	}
 
+	/**
+	 * the getter for the root node
+	 * @return the root node.
+	 */
 	public Node getRootNode()
 	{
 		return rootNode;
