@@ -3,10 +3,30 @@ public class BST
 {
 	/** the root node of the tree. */
 	private Node rootNode;
-	/**
+	
+	/****************************************
+	 * the default constructor for a BST, 
+	 * sets rootNode to null.
+	 ****************************************/
+	public BST()
+	{
+		//rootNode = populateTree();
+		rootNode = null;
+	}
+	
+	/*********************************
+	 * the getter for the root node
+	 * @return the root node.
+	 *********************************/
+	public Node getRootNode()
+	{
+		return rootNode;
+	}
+	
+	/*******************************************************************
 	 * a function that populates the tree with set values for testing.
 	 * @return the root node.
-	 */
+	 *******************************************************************/
 	public Node populateTree()
 	{
 		int [] arrayOfNum = {7, 3, 11, 1, 5, 9, 13, 0, 2, 4, 6, 8, 10, 12, 14};
@@ -23,17 +43,12 @@ public class BST
 		}
 		return arrayOfNodes[0];
 	}
-
-	public BST()
-	{
-		//rootNode = populateTree();
-		rootNode = null;
-	}
-	/**
+	
+	/*******************************************************
 	 * Adds a node to the tree based on data given.
 	 * @param data the data to be added to the tree
 	 * @throws Exception when data already is in the tree
-	 */
+	 *******************************************************/
 	public void addData(int data) throws Exception
 	{
 		// Check if it already exists in the tree
@@ -74,15 +89,15 @@ public class BST
 		}
 	}
 
-	/**
+	/**************************************************************
 	 * deletes a Node in the BST while keeping the tree in
 	 * the BST format.
 	 * @param dataToDelete an int that is the data being deleted.
 	 * @throws Exception when dataToDelete is not in tree.
-	 */
+	 **************************************************************/
 	public void deleteNode(int dataToDelete) throws Exception
 	{	// TODO: issue with case 3 deleting incorrect node or throwing NPE
-		Node nodeToDelete = recursiveSearch(rootNode, dataToDelete);
+		Node nodeToDelete = iterativeSearch(dataToDelete);
 		if (nodeToDelete == null)
 			throw new Exception("node to delete does not exist.");
 		// Case 3:
@@ -122,7 +137,6 @@ public class BST
 					nodeToDelete.setParent(null);
 				}
 			}
-
 		}
 		else // case 2:
 		{
@@ -184,42 +198,76 @@ public class BST
 			}
 		}
 	}
-
-	/**
-	 * the getter for the root node
-	 * @return the root node.
-	 */
-	public Node getRootNode()
-	{
-		return rootNode;
-	}
+	
+	/***********************************************************************
+	 * prints out the inorder traversal of a tree.
+	 * @param currentNode the node the recursive function is currently on.
+	 ***********************************************************************/
 	public void inorderTraversal(Node currentNode)
 	{
 		// Base case
 		if (currentNode == null)
+		{
 			return;
+		}
 		// Otherwise, process left child
 		inorderTraversal(currentNode.getLeftChild());
 		System.out.print(currentNode.getData() + " ");
 		inorderTraversal(currentNode.getRightChild());
 	}
 
+	/*****************************************************************************************
+	 * recursively searches a tree for the key.
+	 * @param currentNode used recursively, the node the function is currently on.
+	 * @param key the integer the function is searching for
+	 * @return a null pointer if node is not found, or a pointer to the node if it is found.
+	 *****************************************************************************************/
 	public Node recursiveSearch(Node currentNode, int key)
 	{
 		// not found
 		if (currentNode == null)
+		{
 			return null;
+		}
 		// base case: found at currentNode
 		if (currentNode.getData() == key)
+		{
 			return currentNode;
+		}
 		if (currentNode.getData() < key) // move right
+		{
 			return recursiveSearch(currentNode.getRightChild(), key);
+		}
 		else // move left
+		{
 			return recursiveSearch(currentNode.getLeftChild(), key);
+		}
 	}
 
+	/*****************************************************************************************
+	 * searches a tree for the key.
+	 * @param key the integer the function is searching for.
+	 * @return a null pointer if node is not found, or a pointer to the node if it is found.
+	 *****************************************************************************************/
 	public Node iterativeSearch(int key)
 	{
-		return new Node();
+		Node currentNode = rootNode;
+		while(currentNode != null)
+		{
+			if(currentNode.getData() == key)
+			{
+				return currentNode;
+			}
+			else if(currentNode.getData() < key) // move right
+			{
+				currentNode = currentNode.getRightChild();
+			}
+			else // move left
+			{
+				currentNode = currentNode.getLeftChild();
+			}
+		}
+		// if we get here, key is not in the tree.
+		return null;
 	}
 }
