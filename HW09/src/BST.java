@@ -23,7 +23,7 @@ public class BST
 		}
 		return arrayOfNodes[0];
 	}
-	
+
 	public BST()
 	{
 		//rootNode = populateTree();
@@ -60,9 +60,7 @@ public class BST
 					current = current.getLeftChild();
 				}
 			}
-			// when we get here, parent is the parent of the new node
-			// TODO: Insert new node as left child/right child depending on how it compares to parent
-			
+			// when we get here, parent is the parent of the new node 
 			// add to the left if new < parent
 			if(newNode.getData() < parent.getData())
 			{
@@ -75,7 +73,7 @@ public class BST
 			}
 		}
 	}
-	
+
 	/**
 	 * deletes a Node in the BST while keeping the tree in
 	 * the BST format.
@@ -105,26 +103,27 @@ public class BST
 		// case 1:
 		if (nodeToDelete.getLeftChild() == null && nodeToDelete.getRightChild() == null)
 		{
-			//TODO: potential source of error here.
-			
 			// root node:
 			if (nodeToDelete.getParent() == null)
 			{
 				rootNode = null;
 			}
-			// left leaf:
-			else if (nodeToDelete.getParent().getLeftChild() == nodeToDelete)
-			{
-				nodeToDelete.getParent().setLeftChild(null);
-				nodeToDelete.setParent(null);
-			}
-			// right leaf:
 			else
 			{
-				nodeToDelete.getParent().setRightChild(null);
-				nodeToDelete.setParent(null);
+				// left leaf:
+				if (nodeToDelete.getParent().getLeftChild() == nodeToDelete)
+				{
+					nodeToDelete.getParent().setLeftChild(null);
+					nodeToDelete.setParent(null);
+				}
+				// right leaf:
+				else
+				{
+					nodeToDelete.getParent().setRightChild(null);
+					nodeToDelete.setParent(null);
+				}
 			}
-			
+
 		}
 		else // case 2:
 		{
@@ -145,7 +144,7 @@ public class BST
 				}
 			}
 			// nodeToDelete is parent's right child:
-			if(nodeToDelete.getParent().getRightChild() == nodeToDelete)
+			else if(nodeToDelete.getParent().getRightChild() == nodeToDelete)
 			{
 				// nodeToDelete only has a right child:
 				if(nodeToDelete.getRightChild() != null)
@@ -205,7 +204,7 @@ public class BST
 		System.out.print(currentNode.getData() + " ");
 		inorderTraversal(currentNode.getRightChild());
 	}
-	
+
 	public Node recursiveSearch(Node currentNode, int key)
 	{
 		// not found
@@ -219,7 +218,7 @@ public class BST
 		else // move left
 			return recursiveSearch(currentNode.getLeftChild(), key);
 	}
-	
+
 	public Node iterativeSearch(int key)
 	{
 		return new Node();
