@@ -94,7 +94,6 @@ public class BST
 			{
 				replacementNode = replacementNode.getLeftChild();
 			}
-			// TODO? copy the data from replacement node to nodeToDelete
 			nodeToDelete.setData(replacementNode.getData());
 			// Now change it: so replacementNode is the new nodeToDelete
 			nodeToDelete = replacementNode;
