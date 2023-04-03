@@ -18,16 +18,16 @@ public class HW15Test {
 			e.printStackTrace();
 		}
 		
-//		GreedyAlgorithm ga = new Knapsack();
-//		try {
-//			ga.populate("HW15File.txt");
-//			ga.fillKnapsack(8);
-//			System.out.println(ga);
-//
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		
+		GreedyAlgorithm ga = new Knapsack();
+		try {
+			ga.populate("HW15File.txt");
+			ga.fillKnapsack(8);
+			System.out.println(ga);
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 }

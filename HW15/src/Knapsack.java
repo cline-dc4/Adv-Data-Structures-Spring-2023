@@ -1,4 +1,8 @@
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Scanner;
 
 public class Knapsack implements GreedyAlgorithm
 {
@@ -41,17 +45,62 @@ public class Knapsack implements GreedyAlgorithm
 	{
 		this.doubleArray = doubleArray;
 	}
-	@Override
+	
+	public Knapsack()
+	{
+		itemArray = new ArrayList<Item>();
+		doubleArray = new double [0];
+	}
+	
+	/**
+	 * This function reads in the file and populates the priority queue
+	 * File format: 
+	 * n
+	 * ID weight value (n rows)
+	 * @param fileName The name of the input file
+	 * @throws FileNotFoundException If file is not found
+	 */
 	public void populate(String fileName) throws Exception 
 	{
+
+		Scanner input = new Scanner(new File("HW15File.txt"));
+		int rows = input.nextInt();
+		//create doubleArray and fill with 0's
+		double [] doubleArray = new double[rows];
+		for (int i = 0; i < rows; i++)
+		{
+			doubleArray[i] = 0;
+		}
+		setDoubleArray(doubleArray);
 		
+		//input items in file into itemArray
+		String ID;
+		double weight;
+		double value;
+		for (int i = 0; i < rows; i++)
+		{
+			ID = input.next();
+			weight = input.nextDouble();
+			value = input.nextDouble();
+			Item newItem = new Item(ID, weight, value);
+			itemArray.add(newItem);
+		}
+		Collections.sort(itemArray);
 	}
-	@Override
+	
+	/**
+	 * This method fills the knapsack to maximize the value
+	 * @param capacity The input capacity
+	 */
 	public void fillKnapsack(int capacity) 
 	{
 		
 	}
-	@Override
+	
+	/**
+	 * This method returns the maximum value possible
+	 * @return The maximum value
+	 */
 	public double getKnapsackValue()
 	{
 		return 0;
