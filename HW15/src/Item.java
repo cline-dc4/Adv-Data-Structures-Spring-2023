@@ -86,8 +86,11 @@ public class Item implements Comparable<Item>
 		}
 		else if(thisRatio < compareRatio)
 		{
-			
+			return 1;
 		}
-		return 0;
+		else
+		{
+			return 0;
+		}
 	}
 }

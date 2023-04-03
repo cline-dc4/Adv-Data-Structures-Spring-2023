@@ -10,6 +10,8 @@ public class Knapsack implements GreedyAlgorithm
 	private ArrayList<Item> itemArray;
 	/** an array that holds doubles. */
 	private double[] doubleArray;
+	/** the max value the knapsack can have */
+	private double maxValue;
 	
 	/**
 	 * the getter for itemArray
@@ -46,6 +48,14 @@ public class Knapsack implements GreedyAlgorithm
 		this.doubleArray = doubleArray;
 	}
 	
+	/**
+	 * the setter for maxValue
+	 * @param maxValue the maxValue of the knapsack
+	 */
+	public void setMaxValue(double maxValue) 
+	{
+		this.maxValue = maxValue;
+	}
 	public Knapsack()
 	{
 		itemArray = new ArrayList<Item>();
@@ -62,8 +72,8 @@ public class Knapsack implements GreedyAlgorithm
 	 */
 	public void populate(String fileName) throws Exception 
 	{
+		Scanner input = new Scanner(new File(fileName));
 
-		Scanner input = new Scanner(new File("HW15File.txt"));
 		int rows = input.nextInt();
 		//create doubleArray and fill with 0's
 		double [] doubleArray = new double[rows];
@@ -72,7 +82,6 @@ public class Knapsack implements GreedyAlgorithm
 			doubleArray[i] = 0;
 		}
 		setDoubleArray(doubleArray);
-		
 		//input items in file into itemArray
 		String ID;
 		double weight;
@@ -86,6 +95,8 @@ public class Knapsack implements GreedyAlgorithm
 			itemArray.add(newItem);
 		}
 		Collections.sort(itemArray);
+//		for (int i = 0; i < rows; i++)
+//			System.out.println(itemArray.get(i)); 
 	}
 	
 	/**
@@ -94,7 +105,24 @@ public class Knapsack implements GreedyAlgorithm
 	 */
 	public void fillKnapsack(int capacity) 
 	{
-		
+		for (int i = 0; i < itemArray.size(); i++)
+		{
+			//capacity is larger than weight, so use all of an item.
+			if (capacity > itemArray.get(i).getWeight())
+			{
+				capacity -= itemArray.get(i).getWeight();
+				doubleArray[i] = 1;
+				maxValue += itemArray.get(i).getValue();
+			}
+			//capacity is smaller than weight but not 0, so use part of an item.
+			else if (capacity < itemArray.get(i).getWeight() && capacity != 0)
+			{
+				doubleArray[i] = capacity/itemArray.get(i).getWeight();
+				maxValue += itemArray.get(i).getValue()*
+						(capacity / itemArray.get(i).getWeight());
+				capacity = 0;
+			}
+		}
 	}
 	
 	/**
@@ -103,8 +131,34 @@ public class Knapsack implements GreedyAlgorithm
 	 */
 	public double getKnapsackValue()
 	{
-		return 0;
+		return maxValue;
 	}
-	
-	
+
+	/**
+	 * creates a string based on the data inside the Knapsack object.
+	 */
+	public String toString()
+	{
+		String s = "";
+		//printing out list of items
+		for (int i = 0; i < itemArray.size(); i++)
+		{
+			s += (i + 1 + ": ");
+			s += (itemArray.get(i));
+			s += "\n";		
+		}
+		//printing out items inside knapsack
+		s += "Knapsack:\n";
+		for (int i = 0; i < itemArray.size(); i++)
+		{
+			if(doubleArray[i] != 0)
+			{
+				s += (itemArray.get(i));
+				s += ("Percentage added: " + (doubleArray[i] * 100) + "%");
+				s += "\n";
+			}
+		}
+		s += "\n" + "Value: " + maxValue;
+		return s;
+	}
 }
