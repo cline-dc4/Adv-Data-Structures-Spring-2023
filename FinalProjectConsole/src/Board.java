@@ -50,6 +50,7 @@ public interface Board
 	 */
 	public void checkState();
 	
+	/* * * * Rules * * * */ 
 	
 	/**
 	 * will capture all stones from the pocket turnPointer and the pocket's capturePocket 
