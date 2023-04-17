@@ -21,6 +21,8 @@ public interface BoardInterface
 	/** the PocketList object that represents the game board */
 	//private PocketList gameBoard;
 	
+	/** the pointer to the pockets being used during the turn */
+	//private Pocket turnPocket;
 	
 	/**
 	 * a constructor that calls the PocketList constructor to create it.

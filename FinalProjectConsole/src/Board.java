@@ -10,6 +10,9 @@ public class Board implements BoardInterface
 	/** the PocketList object that represents the game board */
 	private PocketList gameBoard;
 	
+	/** the pointer to the pockets being used during the turn */
+	private Pocket turnPocket;
+
 	
 	public Board()
 	{
@@ -25,7 +28,20 @@ public class Board implements BoardInterface
 
 	public void moveStones(int pocketNum) 
 	{
-		
+		//use the correct player's pockets.
+		if(currentPlayer == PLAYER1)
+		{
+			turnPocket = gameBoard.getPlayer1Home();
+		}
+		else
+		{
+			turnPocket = gameBoard.getPlayer2Home();
+		}
+		//move turnPocket to the chosen pocket.
+		for(int i = 0; i <= pocketNum; i++)
+		{
+			
+		}
 	}
 
 	public void checkState() 

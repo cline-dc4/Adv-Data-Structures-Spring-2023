@@ -67,6 +67,24 @@ public class PocketList implements PocketListInterface
 	}
 	
 	/**
+	 * the getter for the player1Home pointer.
+	 * @return player1Home
+	 */
+	public Pocket getPlayer1Home()
+	{
+		return player1Home;
+	}
+	
+	/**
+	 * the getter for the player2Home pointer.
+	 * @return player2Home
+	 */
+	public Pocket getPlayer2Home()
+	{
+		return player2Home;
+	}
+	
+	/**
 	 * This will return a string version of the list that visually represents the game board
 	 * in the console.
 	 * @return s the string that will show the game board.

@@ -24,6 +24,17 @@ public interface PocketListInterface
 	 */
 	//public PocketList(int player1, int player2);
 	
+	/**
+	 * the getter for the player1Home pointer.
+	 * @return player1Home
+	 */
+	public Pocket getPlayer1Home();
+	
+	/**
+	 * the getter for the player2Home pointer.
+	 * @return player2Home
+	 */
+	public Pocket getPlayer2Home();
 	
 	/**
 	 * This will return a string version of the list that visually represents the game board
