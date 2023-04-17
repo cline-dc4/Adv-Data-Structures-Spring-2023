@@ -6,16 +6,13 @@
  * @author DC
  * @version 4/13/23
  */
-public interface PocketList 
+public interface PocketListInterface 
 {
 	/** This is a pointer to player 1's home pocket. */
 	//private Pocket player1Home;
 	
 	/** This is a pointer to player 2's home pocket. */
 	//private Pocket player2Home;
-	
-	/** This is a pointer that tracks where the stones are moving in a given turn */
-	//private Pocket turnPointer;
 	
 	
 	/**

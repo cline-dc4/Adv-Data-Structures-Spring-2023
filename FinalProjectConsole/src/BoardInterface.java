@@ -4,13 +4,13 @@
  * @author DC
  * @version 4/13/23
  */
-public interface Board 
+public interface BoardInterface 
 {
 	/** the int referring to player1*/
-	public static final int player1 = 1;
+	public static final int PLAYER1 = 1;
 	
 	/** the int referring to player2 */
-	public static final int player2 = 2;
+	public static final int PLAYER2 = 2;
 	
 	/** the Boolean that shows if the game has ended or not. */
 	//private Boolean gameEnd;
@@ -27,7 +27,7 @@ public interface Board
 	 * @param player1 a constant used for PocketList's constructor
 	 * @param player2 a constant used for PocketList's constructor
 	 */
-	//public Board(int player1, int player2);
+	//public Board();
 	
 	
 	/**
@@ -64,6 +64,11 @@ public interface Board
 	 */
 	public void nextTurn();
 	
+	/**
+	 * allows the player to take a turn.
+	 * @param player the player who's turn it is.
+	 */
+	public void takeTurn(int player);
 	
 	/**
 	 * if all of the currentPlayer's pockets are empty, the remaining stones are given

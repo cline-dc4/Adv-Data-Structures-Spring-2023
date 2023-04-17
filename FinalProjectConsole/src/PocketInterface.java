@@ -5,7 +5,7 @@
  * @author DC
  * @version 4/13/23
  */
-public interface Pocket 
+public interface PocketInterface 
 {
 	/** the pointer to the next pocket */
 	//private Pocket next;
