@@ -25,23 +25,45 @@ public class Board implements BoardInterface
 	{
 		return gameEnd;
 	}
-
-	public void moveStones(int pocketNum)
+	
+	public int getCurrentPlayer()
 	{
+		return currentPlayer;
+	}
+
+	public void moveStones(int pocketNum) throws Exception
+	{
+		//check if pocket number is valid
+		if(pocketNum < 1 || pocketNum > 6)
+		{
+			throw new Exception("invalid pocket number.");
+		}
 		//use the correct player's pockets.
 		if(currentPlayer == PLAYER1)
 		{
 			turnPocket = gameBoard.getPlayer2Home();
+			//move turnPocket to the chosen pocket.
+			for(int i = 0; i < pocketNum; i++)
+			{
+				turnPocket = turnPocket.getNext();
+			}
 		}
 		else
 		{
 			turnPocket = gameBoard.getPlayer1Home();
+			//move turnPocket to the chosen pocket.
+			//uses i < 7 - pocketNum so player can enter 1 - 6
+			//counting from left to right to pick their pocket.
+			for(int i = 0; i < (7 - pocketNum); i++)
+			{
+				turnPocket = turnPocket.getNext();
+			}
 		}
 		
-		//move turnPocket to the chosen pocket.
-		for(int i = 0; i < pocketNum; i++)
+		//throw exception if pocket is empty
+		if(turnPocket.getNumStones() == 0)
 		{
-			turnPocket = turnPocket.getNext();
+			throw new Exception("You cannot move stones from an empty pocket.");
 		}
 		
 		//pick up stones
@@ -86,12 +108,30 @@ public class Board implements BoardInterface
 			nextTurn();
 		}
 		
+		//end game if current player (after advancing turn) cannot make a move
+		Pocket currentPocket = null;
+		if(currentPlayer == PLAYER1)
+		{
+			currentPocket = gameBoard.getPlayer2Home().getNext();
+		}
+		else
+		{
+			currentPocket = gameBoard.getPlayer1Home().getNext();
+		}
+		while(currentPocket.getNumStones() == 0)
+		{
+			currentPocket = currentPocket.getNext();
+			if(currentPocket.isHomePocket())
+			{
+				gameEnd();
+			}
+		}
 		
 	}
 	
 	public void capture() 
 	{
-		//#TODO
+		//TODO
 	}
 
 	public void nextTurn() 
@@ -108,7 +148,38 @@ public class Board implements BoardInterface
 
 	public void gameEnd() 
 	{
-		//#TODO
+		//when game ends take remaining stones and place them into the player's pocket.
+		Pocket currentPocket = null;
+		//Player 1 cannot move, so place remaining stones into player 2 home.
+		if(currentPlayer == PLAYER1)
+		{
+			currentPocket = gameBoard.getPlayer1Home().getNext();
+			while(!currentPocket.isHomePocket())
+			{
+				for(int i = 0; i < currentPocket.getNumStones(); i++)
+				{
+					gameBoard.getPlayer2Home().incrementStones();
+				}
+				currentPocket.removeStones();
+				currentPocket = currentPocket.getNext();
+			}
+		}
+		//Player 2 cannot move, so place remaining stones into player 1 home.
+		else
+		{
+			currentPocket = gameBoard.getPlayer2Home().getNext();
+			while(!currentPocket.isHomePocket())
+			{
+				for(int i = 0; i < currentPocket.getNumStones(); i++)
+				{
+					gameBoard.getPlayer1Home().incrementStones();
+				}
+				currentPocket.removeStones();
+				currentPocket = currentPocket.getNext();
+			}
+		}
+		//signal main that the game has ended.
+		gameEnd = true;
 	}
 	
 	public String toString()

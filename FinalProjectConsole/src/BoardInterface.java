@@ -38,13 +38,19 @@ public interface BoardInterface
 	 */
 	public Boolean getGameEnd();
 	
+	/**
+	 * the getter for the current player.
+	 * @return an int referring to the player number.
+	 */
+	public int getCurrentPlayer();
 	
 	/**
 	 * will take in an integer that refers to a pocket n spaces away from the
 	 * player's home pocket and perform a movement by that player.
 	 * @param pocketNum number of spaces away the chosen pocket is from the home.
+	 * @exception thrown whenever an invalid pocket number is passed in.
 	 */
-	public void moveStones(int pocketNum);
+	public void moveStones(int pocketNum) throws Exception;
 	
 	
 	/**
