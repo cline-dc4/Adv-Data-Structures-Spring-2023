@@ -19,10 +19,11 @@ public class PocketList implements PocketListInterface
 	{
 		Pocket currentPocket = null;
 		Pocket nextPocket = null;
-		//create player 1 pockets
-		player1Home = new Pocket(player1, 0, true);
-		currentPocket = player1Home;
+		//create player 2 home
+		player2Home = new Pocket(player2, 0, true);
+		currentPocket = player2Home;
 		
+		//create player 1 pockets
 		for(int i = 0; i < 6; i++)
 		{
 			nextPocket = new Pocket(player1, 4, false);
@@ -30,18 +31,20 @@ public class PocketList implements PocketListInterface
 			currentPocket = nextPocket;
 		}
 		
-		//create player 2 pockets
-		player2Home = new Pocket(player2, 0, true);
-		currentPocket.setNext(player2Home);
-		currentPocket = player2Home;
+		//create player 1 home
+		player1Home = new Pocket(player1, 0, true);
+		currentPocket.setNext(player1Home);
+		currentPocket = player1Home;
 		for(int i = 0; i < 6; i++)
+			
+		//create player 2 pockets
 		{
 			nextPocket = new Pocket(player2, 4, false);
 			currentPocket.setNext(nextPocket);
 			currentPocket = nextPocket;
 		}
 		//make it a circular list
-		currentPocket.setNext(player1Home);
+		currentPocket.setNext(player2Home);
 		
 		
 		//set up capture pointers
@@ -94,23 +97,27 @@ public class PocketList implements PocketListInterface
 		Pocket current;
 		String s = "";
 		
-		//print out player 2 pockets
-		current = player2Home.getNext();
+		//print out player 2 pockets, this is inefficient since its not a doubly linked list.
 		s += "  ";
-		while(current != player1Home)
-		{
-			s += current + " ";
-			current = current.getNext();
-		}
+			for(int i = 0; i < 6; i++)
+			{
+				current = player1Home;
+				for(int j = 0; j < (6-i); j++)
+				{
+					current = current.getNext();
+				}
+				s += current + " ";
+				
+			}
 		s += "\n";
 		
 		//print out player homes
 		s += player2Home + "              " + player1Home + "\n";
 		
 		//print out player 1 pockets
-		current = player1Home.getNext();
+		current = player2Home.getNext();
 		s += "  ";
-		while(current != player2Home)
+		while(current != player1Home)
 		{
 			s += current + " ";
 			current = current.getNext();

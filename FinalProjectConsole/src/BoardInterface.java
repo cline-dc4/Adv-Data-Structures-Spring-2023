@@ -67,16 +67,15 @@ public interface BoardInterface
 	public void nextTurn();
 	
 	/**
-	 * allows the player to take a turn.
-	 * @param player the player who's turn it is.
-	 */
-	public void takeTurn(int player);
-	
-	/**
 	 * if all of the currentPlayer's pockets are empty, the remaining stones are given
 	 * to the opposite player and the game is ended.
 	 */
 	public void gameEnd();
 	
+	/**
+	 * just calls the toString from pocketList.
+	 * @return the game board as a string.
+	 */
+	public String toString();
 	
 }
