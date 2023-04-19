@@ -1,4 +1,4 @@
-
+//most javadocs are in interface.
 public class Board implements BoardInterface
 {
 	/** the Boolean that shows if the game has ended or not. */
@@ -14,6 +14,11 @@ public class Board implements BoardInterface
 	private Pocket turnPocket;
 
 	
+	/**
+	 * a constructor that calls the PocketList constructor to create it.
+	 * @param player1 a constant used for PocketList's constructor
+	 * @param player2 a constant used for PocketList's constructor
+	 */
 	public Board()
 	{
 		gameEnd = false;
@@ -133,9 +138,9 @@ public class Board implements BoardInterface
 	{
 		//pick up stones from both pockets involved.
 		int capturedStones = turnPocket.getCapturePocket().getNumStones() +
-				turnPocket.getNumStones(); 
+				turnPocket.getNumStones();
+		
 		//place stones into the correct player's pocket.
-
 		for(int i = 0; i < capturedStones; i++)
 		{
 			if(currentPlayer == PLAYER1)
