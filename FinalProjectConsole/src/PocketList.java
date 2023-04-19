@@ -60,7 +60,7 @@ public class PocketList implements PocketListInterface
 			}
 			//nextPocket refers to player 2 pockets.
 			nextPocket = player2Home;
-			for(int j = 0; j <= (6 - i); j++)
+			for(int j = 0; j <= (5 - i); j++)
 			{
 				nextPocket = nextPocket.getNext();
 			}
@@ -112,7 +112,7 @@ public class PocketList implements PocketListInterface
 		s += "\n";
 		
 		//print out player homes
-		s += player2Home + "              " + player1Home + "\n";
+		s += player2Home + "             " + player1Home + "\n";
 		
 		//print out player 1 pockets
 		current = player2Home.getNext();

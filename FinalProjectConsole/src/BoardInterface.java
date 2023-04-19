@@ -79,6 +79,12 @@ public interface BoardInterface
 	public void gameEnd();
 	
 	/**
+	 * shows who won the game, returns 1 for player 1, 2 for player 2, or 0 for a tie.
+	 * @return 0, 1, or 2 depending on who won or if there is a tie.
+	 */
+	public int showWinner();
+	
+	/**
 	 * just calls the toString from pocketList.
 	 * @return the game board as a string.
 	 */

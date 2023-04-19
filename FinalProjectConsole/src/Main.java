@@ -23,6 +23,14 @@ public class Main
 				System.out.println(e);
 			}
 		}
-
+		input.close();
+		if(gb.showWinner() > 0)
+		{
+			System.out.println("Player " + gb.showWinner() + " won!");
+		}
+		else
+		{
+			System.out.println("Tie!");
+		}
 	}
 }

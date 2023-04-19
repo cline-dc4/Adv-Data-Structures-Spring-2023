@@ -131,7 +131,24 @@ public class Board implements BoardInterface
 	
 	public void capture() 
 	{
-		//TODO
+		//pick up stones from both pockets involved.
+		int capturedStones = turnPocket.getCapturePocket().getNumStones() +
+				turnPocket.getNumStones(); 
+		//place stones into the correct player's pocket.
+
+		for(int i = 0; i < capturedStones; i++)
+		{
+			if(currentPlayer == PLAYER1)
+			{
+				gameBoard.getPlayer1Home().incrementStones();	
+			}
+			else
+			{
+				gameBoard.getPlayer2Home().incrementStones();
+			}
+		}
+		turnPocket.removeStones();
+		turnPocket.getCapturePocket().removeStones();
 	}
 
 	public void nextTurn() 
@@ -180,6 +197,22 @@ public class Board implements BoardInterface
 		}
 		//signal main that the game has ended.
 		gameEnd = true;
+	}
+	
+	public int showWinner()
+	{
+		if(gameBoard.getPlayer1Home().getNumStones() > gameBoard.getPlayer2Home().getNumStones())
+		{
+			return PLAYER1;
+		}
+		else if(gameBoard.getPlayer1Home().getNumStones() < gameBoard.getPlayer2Home().getNumStones())
+		{
+			return PLAYER2;
+		}
+		else
+		{
+			return 0;
+		}
 	}
 	
 	public String toString()
