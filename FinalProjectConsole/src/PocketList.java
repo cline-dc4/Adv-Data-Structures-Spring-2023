@@ -59,6 +59,7 @@ public class PocketList implements PocketListInterface
 				currentPocket = currentPocket.getNext();
 			}
 			//nextPocket refers to player 2 pockets.
+			//uses 5 - i since j starts at 0.
 			nextPocket = player2Home;
 			for(int j = 0; j <= (5 - i); j++)
 			{

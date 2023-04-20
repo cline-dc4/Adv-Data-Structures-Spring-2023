@@ -53,14 +53,14 @@ public class Pocket implements PocketInterface
 		return homePocket;
 	}
 
-	public Pocket getCapturePocket() 
-	{
-		return capturePocket;
-	}
-
 	public void setCapturePocket(Pocket capturePocket) 
 	{
 		this.capturePocket = capturePocket;
+	}
+	
+	public Pocket getCapturePocket() 
+	{
+		return capturePocket;
 	}
 
 	public void removeStones() 
