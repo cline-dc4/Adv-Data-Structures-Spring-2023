@@ -11,7 +11,7 @@ public class Pocket implements PocketInterface
 	private int numStones;
 	
 	/** true if home pocket, else false. */
-	private Boolean homePocket;
+	private boolean homePocket;
 	
 	/** the pointer to the pocket this one can capture from, is null if homePocket is true */
 	private Pocket capturePocket;
@@ -48,7 +48,7 @@ public class Pocket implements PocketInterface
 		return owner;
 	}
 
-	public Boolean isHomePocket() 
+	public boolean isHomePocket() 
 	{
 		return homePocket;
 	}

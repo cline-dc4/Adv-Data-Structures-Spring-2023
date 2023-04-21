@@ -56,7 +56,7 @@ public interface PocketInterface
 	 * shows whether or not the pocket is a home pocket
 	 * @return true if home pocket, else false
 	 */
-	public Boolean isHomePocket();
+	public boolean isHomePocket();
 	
 
 	/**

@@ -36,7 +36,7 @@ public interface BoardInterface
 	 * shows whether or not the game has ended.
 	 * @return true if ended, false otherwise.
 	 */
-	public Boolean getGameEnd();
+	public boolean getGameEnd();
 	
 	/**
 	 * the getter for the current player.

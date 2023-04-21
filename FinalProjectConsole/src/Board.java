@@ -2,7 +2,7 @@
 public class Board implements BoardInterface
 {
 	/** the Boolean that shows if the game has ended or not. */
-	private Boolean gameEnd;
+	private boolean gameEnd;
 	
 	/** the player who is currently taking their turn */
 	private int currentPlayer;
@@ -26,7 +26,7 @@ public class Board implements BoardInterface
 		gameBoard = new PocketList(PLAYER1, PLAYER2);
 	}
 	
-	public Boolean getGameEnd()
+	public boolean getGameEnd()
 	{
 		return gameEnd;
 	}
