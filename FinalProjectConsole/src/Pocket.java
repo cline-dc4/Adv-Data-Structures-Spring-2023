@@ -17,7 +17,11 @@ public class Pocket implements PocketInterface
 	private Pocket capturePocket;
 	
 	
-
+	/**
+	 * creates a pocket with given owner and number of stones.
+	 * @param player
+	 * @param numStones
+	 */
 	public Pocket(int player, int numStones, Boolean homePocket)
 	{
 		next = null;

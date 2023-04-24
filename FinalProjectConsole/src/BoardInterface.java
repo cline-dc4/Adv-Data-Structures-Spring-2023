@@ -54,9 +54,10 @@ public interface BoardInterface
 	
 	
 	/**
-	 * will run through various if statements to see if any rules need to be used
+	 * will run through various if statements to see if any rules need to be used.
+	 * @return 0 for capture, 1 for nextTurn, and 2 for gameEnd.
 	 */
-	public void checkState();
+	public int checkState();
 	
 	/* * * * Rules * * * */ 
 	

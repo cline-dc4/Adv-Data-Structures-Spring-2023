@@ -43,6 +43,12 @@ public class Board implements BoardInterface
 		{
 			throw new Exception("invalid pocket number.");
 		}
+		//throw exception if pocket is empty
+		if(turnPocket.getNumStones() == 0)
+		{
+			throw new Exception("You cannot move stones from an empty pocket.");
+		}
+		
 		//use the correct player's pockets.
 		if(currentPlayer == PLAYER1)
 		{
@@ -65,12 +71,7 @@ public class Board implements BoardInterface
 			}
 		}
 		
-		//throw exception if pocket is empty
-		if(turnPocket.getNumStones() == 0)
-		{
-			throw new Exception("You cannot move stones from an empty pocket.");
-		}
-		
+
 		//pick up stones
 		int heldStones = turnPocket.getNumStones();
 		turnPocket.removeStones();
@@ -88,16 +89,28 @@ public class Board implements BoardInterface
 		}
 		
 		//check if the move triggers any special rules.
-		checkState();
+		if (checkState() == 0)
+		{
+			capture();
+		}
+		if (checkState() == 1)
+		{
+			nextTurn();
+		}
+		if(checkState() == 2)
+		{
+			gameEnd();
+		}
 	}
 
-	public void checkState() 
+	public int checkState() 
 	{
 		//capture if turn ends on current player's side in an empty pocket.
 		if(turnPocket.getNumStones() == 1 && turnPocket.getOwner() == currentPlayer 
 				&& !turnPocket.isHomePocket())
 		{
-			capture();
+			//call capture in moveStones
+			return 0;
 		}
 		
 		//advance turn if turn doesn't end in current player's home pocket
@@ -105,12 +118,14 @@ public class Board implements BoardInterface
 		{
 			if(turnPocket.getOwner() != currentPlayer)
 			{
-				nextTurn();
+				//call nextTurn in moveStones
+				return 1;
 			}
 		}
 		else
 		{
-			nextTurn();
+			//call nextTurn in moveStones
+			return 1;
 		}
 		
 		//end game if current player (after advancing turn) cannot make a move
@@ -128,10 +143,12 @@ public class Board implements BoardInterface
 			currentPocket = currentPocket.getNext();
 			if(currentPocket.isHomePocket())
 			{
-				gameEnd();
+				//call endGame in moveStones
+				return 2;
 			}
 		}
-		
+		//no special rules are needed
+		return -1;
 	}
 	
 	public void capture() 
@@ -158,14 +175,7 @@ public class Board implements BoardInterface
 
 	public void nextTurn() 
 	{
-		if(currentPlayer == PLAYER1)
-		{
-			currentPlayer = PLAYER2;
-		}
-		else
-		{
-			currentPlayer = PLAYER1;
-		}
+		currentPlayer = 3 - currentPlayer;
 	}
 
 	public void gameEnd() 
@@ -175,6 +185,7 @@ public class Board implements BoardInterface
 		//Player 1 cannot move, so place remaining stones into player 2 home.
 		if(currentPlayer == PLAYER1)
 		{
+			//TODO figure out how to combine these two while loops and condense this.
 			currentPocket = gameBoard.getPlayer1Home().getNext();
 			while(!currentPocket.isHomePocket())
 			{
