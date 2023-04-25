@@ -43,11 +43,6 @@ public class Board implements BoardInterface
 		{
 			throw new Exception("invalid pocket number.");
 		}
-		//throw exception if pocket is empty
-		if(turnPocket.getNumStones() == 0)
-		{
-			throw new Exception("You cannot move stones from an empty pocket.");
-		}
 		
 		//use the correct player's pockets.
 		if(currentPlayer == PLAYER1)
@@ -71,7 +66,13 @@ public class Board implements BoardInterface
 			}
 		}
 		
-
+		//throw exception if pocket is empty
+		//this has to be here because turnPocket has to be given a Pocket to point to.
+		if(turnPocket.getNumStones() == 0)
+		{
+			throw new Exception("You cannot move stones from an empty pocket.");
+		}
+		
 		//pick up stones
 		int heldStones = turnPocket.getNumStones();
 		turnPocket.removeStones();
@@ -106,8 +107,8 @@ public class Board implements BoardInterface
 	public int checkState() 
 	{
 		//capture if turn ends on current player's side in an empty pocket.
-		if(turnPocket.getNumStones() == 1 && turnPocket.getOwner() == currentPlayer 
-				&& !turnPocket.isHomePocket())
+		if(turnPocket.getNumStones() == 1 && turnPocket.getCapturePocket().getNumStones() > 0 &&
+				turnPocket.getOwner() == currentPlayer && !turnPocket.isHomePocket())
 		{
 			//call capture in moveStones
 			return 0;
@@ -143,7 +144,7 @@ public class Board implements BoardInterface
 			currentPocket = currentPocket.getNext();
 			if(currentPocket.isHomePocket())
 			{
-				//call endGame in moveStones
+				//call gameEnd in moveStones
 				return 2;
 			}
 		}
@@ -183,33 +184,66 @@ public class Board implements BoardInterface
 		//when game ends take remaining stones and place them into the player's pocket.
 		Pocket currentPocket = null;
 		//Player 1 cannot move, so place remaining stones into player 2 home.
+//		if(currentPlayer == PLAYER1)
+//		{
+//			//TODO figure out how to combine these two while loops and condense this.
+//			currentPocket = gameBoard.getPlayer1Home().getNext();
+//			while(!currentPocket.isHomePocket())
+//			{
+//				for(int i = 0; i < currentPocket.getNumStones(); i++)
+//				{
+//					gameBoard.getPlayer2Home().incrementStones();
+//				}
+//				currentPocket.removeStones();
+//				currentPocket = currentPocket.getNext();
+//			}
+//		}
+//		//Player 2 cannot move, so place remaining stones into player 1 home.
+//		else
+//		{
+//			currentPocket = gameBoard.getPlayer2Home().getNext();
+//			while(!currentPocket.isHomePocket())
+//			{
+//				for(int i = 0; i < currentPocket.getNumStones(); i++)
+//				{
+//					gameBoard.getPlayer1Home().incrementStones();
+//				}
+//				currentPocket.removeStones();
+//				currentPocket = currentPocket.getNext();
+//			}
+//		}
+		
+		// #TODO investigate rules of mancala and see if all this is needed.
+		// Game may end if one side is empty and whoever's side it is gets all stones.
+		// Maybe check both sides each time and see if either one is empty, then if
+		// one is then end the game?
 		if(currentPlayer == PLAYER1)
 		{
-			//TODO figure out how to combine these two while loops and condense this.
-			currentPocket = gameBoard.getPlayer1Home().getNext();
-			while(!currentPocket.isHomePocket())
+			currentPocket = gameBoard.getPlayer1Home();
+		}
+		else
+		{
+			currentPocket = gameBoard.getPlayer2Home();
+		}
+		
+		while(!currentPocket.isHomePocket())
+		{
+			if(currentPlayer == PLAYER1)
 			{
 				for(int i = 0; i < currentPocket.getNumStones(); i++)
 				{
 					gameBoard.getPlayer2Home().incrementStones();
 				}
-				currentPocket.removeStones();
-				currentPocket = currentPocket.getNext();
 			}
-		}
-		//Player 2 cannot move, so place remaining stones into player 1 home.
-		else
-		{
-			currentPocket = gameBoard.getPlayer2Home().getNext();
-			while(!currentPocket.isHomePocket())
+			else
 			{
 				for(int i = 0; i < currentPocket.getNumStones(); i++)
 				{
 					gameBoard.getPlayer1Home().incrementStones();
 				}
-				currentPocket.removeStones();
-				currentPocket = currentPocket.getNext();
 			}
+			currentPocket.removeStones();
+			currentPocket = currentPocket.getNext();
 		}
 		//signal main that the game has ended.
 		gameEnd = true;
