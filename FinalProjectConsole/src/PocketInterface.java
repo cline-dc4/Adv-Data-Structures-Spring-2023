@@ -3,7 +3,7 @@
  * It will act as the pockets in the mancala board and also store pointers
  * to the next pocket.
  * @author DC
- * @version 4/13/23
+ * @version 4/23/23
  */
 public interface PocketInterface 
 {

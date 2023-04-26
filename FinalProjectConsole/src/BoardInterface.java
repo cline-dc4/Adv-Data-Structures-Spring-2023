@@ -2,7 +2,7 @@
  * This class handles all the logic of the game, and will contain
  * methods for all the rules and moves the player follows and can make.
  * @author DC
- * @version 4/13/23
+ * @version 4/26/23
  */
 public interface BoardInterface 
 {
@@ -11,6 +11,9 @@ public interface BoardInterface
 	
 	/** the int referring to player2 */
 	public static final int PLAYER2 = 2;
+	
+	/** the number of pockets, used in for loops */
+	public static final int NUM_POCKETS = 6;
 	
 	/** the Boolean that shows if the game has ended or not. */
 	//private Boolean gameEnd;

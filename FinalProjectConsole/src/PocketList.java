@@ -24,7 +24,7 @@ public class PocketList implements PocketListInterface
 		currentPocket = player2Home;
 		
 		//create player 1 pockets
-		for(int i = 0; i < 6; i++)
+		for(int i = 0; i < Board.NUM_POCKETS; i++)
 		{
 			nextPocket = new Pocket(player1, 4, false);
 			currentPocket.setNext(nextPocket);
@@ -35,7 +35,7 @@ public class PocketList implements PocketListInterface
 		player1Home = new Pocket(player1, 0, true);
 		currentPocket.setNext(player1Home);
 		currentPocket = player1Home;
-		for(int i = 0; i < 6; i++)
+		for(int i = 0; i < Board.NUM_POCKETS; i++)
 			
 		//create player 2 pockets
 		{
@@ -50,7 +50,7 @@ public class PocketList implements PocketListInterface
 		//set up capture pointers
 		
 		
-		for(int i = 0; i < 6; i++)
+		for(int i = 0; i < Board.NUM_POCKETS; i++)
 		{
 			//currentPocket refers to player 1 pockets.
 			currentPocket = player1Home;
@@ -61,7 +61,7 @@ public class PocketList implements PocketListInterface
 			//nextPocket refers to player 2 pockets.
 			//uses 5 - i since j starts at 0.
 			nextPocket = player2Home;
-			for(int j = 0; j <= (5 - i); j++)
+			for(int j = 0; j <= ((Board.NUM_POCKETS - 1) - i); j++)
 			{
 				nextPocket = nextPocket.getNext();
 			}
@@ -87,10 +87,10 @@ public class PocketList implements PocketListInterface
 		
 		//print out player 2 pockets, this is inefficient since its not a doubly linked list.
 		s += "  ";
-			for(int i = 0; i < 6; i++)
+			for(int i = 0; i < Board.NUM_POCKETS; i++)
 			{
 				current = player1Home;
-				for(int j = 0; j < (6-i); j++)
+				for(int j = 0; j < (Board.NUM_POCKETS - i); j++)
 				{
 					current = current.getNext();
 				}

@@ -39,7 +39,7 @@ public class Board implements BoardInterface
 	public void moveStones(int pocketNum) throws Exception
 	{
 		//check if pocket number is valid
-		if(pocketNum < 1 || pocketNum > 6)
+		if(pocketNum < 1 || pocketNum > NUM_POCKETS)
 		{
 			throw new Exception("invalid pocket number.");
 		}
@@ -60,7 +60,7 @@ public class Board implements BoardInterface
 			//move turnPocket to the chosen pocket.
 			//uses i < 7 - pocketNum so player can enter 1 - 6
 			//counting from left to right to pick their pocket.
-			for(int i = 0; i < (7 - pocketNum); i++)
+			for(int i = 0; i < ((NUM_POCKETS + 1) - pocketNum); i++)
 			{
 				turnPocket = turnPocket.getNext();
 			}
