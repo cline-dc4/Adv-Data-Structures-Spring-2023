@@ -3,17 +3,17 @@ public class Board implements BoardInterface
 {
 	/** the Boolean that shows if the game has ended or not. */
 	private boolean gameEnd;
-	
+
 	/** the player who is currently taking their turn */
 	private int currentPlayer;
-	
+
 	/** the PocketList object that represents the game board */
 	private PocketList gameBoard;
-	
+
 	/** the pointer to the pockets being used during the turn */
 	private Pocket turnPocket;
 
-	
+
 	/**
 	 * a constructor that calls the PocketList constructor to create it.
 	 * @param player1 a constant used for PocketList's constructor
@@ -25,12 +25,12 @@ public class Board implements BoardInterface
 		currentPlayer = 1;
 		gameBoard = new PocketList(PLAYER1, PLAYER2);
 	}
-	
+
 	public boolean getGameEnd()
 	{
 		return gameEnd;
 	}
-	
+
 	public int getCurrentPlayer()
 	{
 		return currentPlayer;
@@ -43,7 +43,7 @@ public class Board implements BoardInterface
 		{
 			throw new Exception("invalid pocket number.");
 		}
-		
+
 		//use the correct player's pockets.
 		if(currentPlayer == PLAYER1)
 		{
@@ -65,18 +65,18 @@ public class Board implements BoardInterface
 				turnPocket = turnPocket.getNext();
 			}
 		}
-		
+
 		//throw exception if pocket is empty
 		//this has to be here because turnPocket has to be given a Pocket to point to.
 		if(turnPocket.getNumStones() == 0)
 		{
 			throw new Exception("You cannot move stones from an empty pocket.");
 		}
-		
+
 		//pick up stones
 		int heldStones = turnPocket.getNumStones();
 		turnPocket.removeStones();
-		
+
 		//move stones to the next pockets unless it is the other player's home
 		while(heldStones != 0)
 		{
@@ -88,76 +88,61 @@ public class Board implements BoardInterface
 				heldStones--;
 			}
 		}
-		
+
 		//check if the move triggers any special rules.
-		if (checkState() == 0)
+		
+		//capture if turn ends on current player's side in an empty pocket.
+		if(turnPocket.getNumStones() == 1 && !turnPocket.isHomePocket() && 
+				turnPocket.getCapturePocket().getNumStones() > 0 && turnPocket.getOwner() == currentPlayer)
 		{
+			//call capture
 			capture();
 		}
-		if (checkState() == 1)
-		{
-			nextTurn();
-		}
-		if(checkState() == 2)
-		{
-			gameEnd();
-		}
-	}
 
-	public int checkState() 
-	{
-		//capture if turn ends on current player's side in an empty pocket.
-		if(turnPocket.getNumStones() == 1 && turnPocket.getCapturePocket().getNumStones() > 0 &&
-				turnPocket.getOwner() == currentPlayer && !turnPocket.isHomePocket())
-		{
-			//call capture in moveStones
-			return 0;
-		}
-		
 		//advance turn if turn doesn't end in current player's home pocket
 		if(turnPocket.isHomePocket())
 		{
 			if(turnPocket.getOwner() != currentPlayer)
 			{
-				//call nextTurn in moveStones
-				return 1;
+				//call nextTurn
+				nextTurn();
 			}
 		}
 		else
 		{
-			//call nextTurn in moveStones
-			return 1;
+			//call nextTurn
+			nextTurn();
 		}
-		
-		//end game if current player (after advancing turn) cannot make a move
-		Pocket currentPocket = null;
-		if(currentPlayer == PLAYER1)
-		{
-			currentPocket = gameBoard.getPlayer2Home().getNext();
-		}
-		else
-		{
-			currentPocket = gameBoard.getPlayer1Home().getNext();
-		}
+
+		//end game if any row is empty
+		Pocket currentPocket = gameBoard.getPlayer1Home().getNext();
 		while(currentPocket.getNumStones() == 0)
 		{
 			currentPocket = currentPocket.getNext();
 			if(currentPocket.isHomePocket())
 			{
-				//call gameEnd in moveStones
-				return 2;
+				//call gameEnd
+				gameEnd();
 			}
 		}
-		//no special rules are needed
-		return -1;
+		currentPocket = gameBoard.getPlayer2Home().getNext();
+		while(currentPocket.getNumStones() == 0)
+		{
+			currentPocket = currentPocket.getNext();
+			if(currentPocket.isHomePocket())
+			{
+				//call gameEnd
+				gameEnd();
+			}
+		}
 	}
-	
+
 	public void capture() 
 	{
 		//pick up stones from both pockets involved.
 		int capturedStones = turnPocket.getCapturePocket().getNumStones() +
 				turnPocket.getNumStones();
-		
+
 		//place stones into the correct player's pocket.
 		for(int i = 0; i < capturedStones; i++)
 		{
@@ -182,64 +167,49 @@ public class Board implements BoardInterface
 	public void gameEnd() 
 	{
 		//when game ends take remaining stones and place them into the player's pocket.
-		Pocket currentPocket = null;
-		//Player 1 cannot move, so place remaining stones into player 2 home.
-//		if(currentPlayer == PLAYER1)
-//		{
-//			//TODO figure out how to combine these two while loops and condense this.
-//			currentPocket = gameBoard.getPlayer1Home().getNext();
-//			while(!currentPocket.isHomePocket())
-//			{
-//				for(int i = 0; i < currentPocket.getNumStones(); i++)
-//				{
-//					gameBoard.getPlayer2Home().incrementStones();
-//				}
-//				currentPocket.removeStones();
-//				currentPocket = currentPocket.getNext();
-//			}
-//		}
-//		//Player 2 cannot move, so place remaining stones into player 1 home.
-//		else
-//		{
-//			currentPocket = gameBoard.getPlayer2Home().getNext();
-//			while(!currentPocket.isHomePocket())
-//			{
-//				for(int i = 0; i < currentPocket.getNumStones(); i++)
-//				{
-//					gameBoard.getPlayer1Home().incrementStones();
-//				}
-//				currentPocket.removeStones();
-//				currentPocket = currentPocket.getNext();
-//			}
-//		}
-		
-		// #TODO investigate rules of mancala and see if all this is needed.
-		// Game may end if one side is empty and whoever's side it is gets all stones.
-		// Maybe check both sides each time and see if either one is empty, then if
-		// one is then end the game?
-		if(currentPlayer == PLAYER1)
+
+		//figure out which section of the list is empty
+		Pocket currentPocket = gameBoard.getPlayer1Home().getNext();
+		int player = 0;
+
+		while(currentPocket.getNumStones() == 0)
 		{
-			currentPocket = gameBoard.getPlayer1Home();
+			currentPocket = currentPocket.getNext();
+			if(currentPocket.isHomePocket())
+			{
+				player = PLAYER1;
+			}
+			else
+			{
+				player = PLAYER2;
+			}
+		}
+
+		//set pointer to correct home to start retrieving stones
+		if(player == PLAYER1)
+		{
+			currentPocket = gameBoard.getPlayer2Home().getNext();
 		}
 		else
 		{
-			currentPocket = gameBoard.getPlayer2Home();
+			currentPocket = gameBoard.getPlayer1Home().getNext();
 		}
-		
+
+		//give stones to player
 		while(!currentPocket.isHomePocket())
 		{
-			if(currentPlayer == PLAYER1)
+			if(player == PLAYER1)
 			{
 				for(int i = 0; i < currentPocket.getNumStones(); i++)
 				{
-					gameBoard.getPlayer2Home().incrementStones();
+					gameBoard.getPlayer1Home().incrementStones();
 				}
 			}
 			else
 			{
 				for(int i = 0; i < currentPocket.getNumStones(); i++)
 				{
-					gameBoard.getPlayer1Home().incrementStones();
+					gameBoard.getPlayer2Home().incrementStones();
 				}
 			}
 			currentPocket.removeStones();
@@ -248,7 +218,7 @@ public class Board implements BoardInterface
 		//signal main that the game has ended.
 		gameEnd = true;
 	}
-	
+
 	public int showWinner()
 	{
 		if(gameBoard.getPlayer1Home().getNumStones() > gameBoard.getPlayer2Home().getNumStones())
@@ -264,7 +234,7 @@ public class Board implements BoardInterface
 			return 0;
 		}
 	}
-	
+
 	public String toString()
 	{
 		return "" + gameBoard;
