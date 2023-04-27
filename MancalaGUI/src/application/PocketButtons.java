@@ -2,6 +2,7 @@ package application;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.shape.Circle;
@@ -22,6 +23,9 @@ public class PocketButtons extends GridPane implements EventHandler<ActionEvent>
 	/** a pointer to the Player2HomeButton. */
 	private PlayerTwoHomeButton player2HomeButton;
 	
+	/** a pointer to the label BottomMessage. */
+	private BottomMessage currentPlayer;
+	
 	/** array of Buttons that corresponds to the player 1 standard pockets. */
 	private Button[] player1Pockets;
 	
@@ -35,15 +39,17 @@ public class PocketButtons extends GridPane implements EventHandler<ActionEvent>
 	 * @param backend a pointer to the Board object in the main.
 	 * @param player1HomeButton a pointer to the player 1 home button.
 	 * @param player2HomeButton a pointer to the player 2 home button.
+	 * @param currentPlayer a pointer to the label at the bottom of the GUI.
 	 * @throws Exception from the Board class method getNumStones.
 	 */
 
 	public PocketButtons(Board backend, PlayerOneHomeButton player1HomeButton,
-			PlayerTwoHomeButton player2HomeButton) throws Exception
+			PlayerTwoHomeButton player2HomeButton, BottomMessage currentPlayer) throws Exception
 	{
 		this.backend = backend;
 		this.player1HomeButton = player1HomeButton;
 		this.player2HomeButton = player2HomeButton;
+		this.currentPlayer = currentPlayer;
 		
 		player1Pockets = new Button[Board.NUM_POCKETS];
 		player2Pockets = new Button[Board.NUM_POCKETS];
@@ -72,8 +78,8 @@ public class PocketButtons extends GridPane implements EventHandler<ActionEvent>
 		
 		for(int i = 1; i < Board.NUM_POCKETS + 1; i++)
 		{
-			this.add(player1Pockets[i - 1], i, 0);
-			this.add(player2Pockets[i - 1], i, 1);
+			this.add(player2Pockets[i - 1], i, 0);
+			this.add(player1Pockets[i - 1], i, 1);
 		}
 	}
 	
@@ -82,13 +88,63 @@ public class PocketButtons extends GridPane implements EventHandler<ActionEvent>
 		for(int i = 0; i < Board.NUM_POCKETS; i++)
 		{
 			player1Pockets[i].setText(String.valueOf(backend.getNumStones(Board.PLAYER1, i)));
-			player2Pockets[i].setText(String.valueOf(backend.getNumStones(Board.PLAYER1, i)));
+			player2Pockets[i].setText(String.valueOf(backend.getNumStones(Board.PLAYER2, i)));
 		}
 	}
 	
-	public void handle(ActionEvent event) 
+	public void handle(ActionEvent event)
 	{
-		
+		//logic to pass in correct value to moveStones
+		//while not allowing players to click pockets when
+		//it isn't their turn.
+		if(backend.getCurrentPlayer() == Board.PLAYER1)
+		{
+			for(int i = 0; i < Board.NUM_POCKETS; i++)
+			{
+				if(event.getSource() == player1Pockets[i])
+				{
+					try
+					{
+						backend.moveStones(i);
+						updateValues();
+						player1HomeButton.updateValue();
+						player2HomeButton.updateValue();
+						currentPlayer.updateText();
+					}
+					catch(Exception e)
+					{
+						Alert alert = new Alert(Alert.AlertType.ERROR);
+						alert.setTitle("Error moving");
+						alert.setContentText(e.getMessage());
+						alert.showAndWait();
+					}
+				}
+			}
+		}
+		else
+		{
+			for(int i = 0; i < Board.NUM_POCKETS - i; i++)
+			{
+				if(event.getSource() == player2Pockets[i])
+				{
+					try
+					{
+						backend.moveStones(i);
+						updateValues();
+						player1HomeButton.updateValue();
+						player2HomeButton.updateValue();
+						currentPlayer.updateText();
+					}
+					catch(Exception e)
+					{
+						Alert alert = new Alert(Alert.AlertType.ERROR);
+						alert.setTitle("Error!");
+						alert.setContentText(e.getMessage());
+						alert.showAndWait();
+					}
+				}
+			}
+		}
 	}
 
 }

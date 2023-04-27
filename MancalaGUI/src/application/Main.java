@@ -13,14 +13,15 @@ import javafx.scene.layout.BorderPane;
  */
 public class Main extends Application
 {
-	// TODO menubar for newGame and close game.
-	// TODO label that describes instructions
+	
 	// TODO alert for end of game and winner
-	// TODO maybe add a delay showing the motion of the stones?(just to annoy Crissy and Jordan lol)
+	// TODO most of the handle methods
+	// TODO maybe add a delay showing the motion of the stones?
 	
 	/** the backend/logic for the mancala game */
 	private Board backend;
 	
+	private BottomMessage bottomMessage;
 	/** the normal pockets that make up the game board */
 	private PocketButtons pocketButtons;
 	
@@ -28,16 +29,24 @@ public class Main extends Application
 	private PlayerOneHomeButton player1Home;
 	
 	/** player 2's home pocket */
-	private PlayerTwoHomeButton player2Home;
+	private PlayerTwoHomeButton player2Home; 
+	
+	/** the menuBar at the top of the GUI */
+	private TopBar topBar;
+	
+	/**
+	 * the constructor that is initializing all the pieces of the GUI
+	 */
 	public Main()
 	{
 		try
 		{
 		backend = new Board();
+		bottomMessage = new BottomMessage(backend);
 		player1Home = new PlayerOneHomeButton(backend);
 		player2Home = new PlayerTwoHomeButton(backend);
-		pocketButtons = new PocketButtons(backend, player1Home, player2Home);
-
+		pocketButtons = new PocketButtons(backend, player1Home, player2Home, bottomMessage);
+		topBar = new TopBar();
 		}
 		catch(Exception e)
 		{
@@ -59,6 +68,8 @@ public class Main extends Application
 			root.setCenter(pocketButtons);
 			root.setRight(player1Home);
 			root.setLeft(player2Home);
+			root.setTop(topBar);
+			root.setBottom(bottomMessage);
 			root.setStyle(ButtonCodes.LIGHT_BROWN);
 			
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());

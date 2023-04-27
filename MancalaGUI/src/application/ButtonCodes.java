@@ -28,5 +28,6 @@ public interface ButtonCodes
 			"-fx-text-fill: #FFFFFF; ";
 			
 	public static String LIGHT_BROWN = 			
-			"-fx-background-color: #C19A6B; ";
+			"-fx-background-color: #C19A6B; " +
+			"-fx-font: 16 px; ";
 }
