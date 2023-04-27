@@ -8,6 +8,11 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.GridPane;
 
+/**
+ * The class that creates the menu bar at the top of the GUI
+ * @author DC
+ * @version 4/27/23
+ */
 public class TopBar extends GridPane implements EventHandler<ActionEvent>
 {
 	/** will reset the game */
@@ -43,34 +48,41 @@ public class TopBar extends GridPane implements EventHandler<ActionEvent>
 	public TopBar(Board backend, BottomMessage bottomMessage, PocketButtons pocketButtons,
 			PlayerOneHomeButton player1Home, PlayerTwoHomeButton player2Home)
 	{
+		//set all pointers to point to the correct places.
 		this.backend = backend;
 		this.bottomMessage = bottomMessage;
 		this.pocketButtons = pocketButtons;
 		this.player1Home = player1Home;
 		this.player2Home = player2Home;
 
+		//create the menu bar and menu
 		MenuBar mb = new MenuBar();
 		Menu optionsMenu = new Menu("Options");
 
+		//create the menu items
 		resetGame = new MenuItem("Reset Game");
 		quit = new MenuItem("Quit");
 
+		//add all of them together.
 		optionsMenu.getItems().add(resetGame);
 		optionsMenu.getItems().add(quit);
-
 		resetGame.setOnAction(this);
 		quit.setOnAction(this);
-
 		mb.getMenus().add(optionsMenu);
 		this.add(mb, 0, 0);
 	}
 
+	/**
+	 * the handle method for TopBar, allows the game to be reset and 
+	 * the GUI to be exited.
+	 */
 	public void handle(ActionEvent event) 
 	{
 		if(event.getSource() == resetGame)
 		{
 			try
 			{
+				//reset the backend to its default values then update all GUI elements.
 				backend.resetBoard();
 				bottomMessage.updateText();
 				pocketButtons.updateValues();

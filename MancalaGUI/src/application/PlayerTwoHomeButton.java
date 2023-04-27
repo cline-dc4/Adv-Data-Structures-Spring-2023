@@ -7,7 +7,7 @@ import javafx.scene.shape.Circle;
 /**
  * creates a button to display player 2's home pocket
  * @author DC
- * @version 4/26/23
+ * @version 4/27/23
  */
 public class PlayerTwoHomeButton extends GridPane implements ButtonCodes
 {
@@ -25,6 +25,7 @@ public class PlayerTwoHomeButton extends GridPane implements ButtonCodes
 	public PlayerTwoHomeButton(Board backend) throws Exception
 	{
 		this.backend = backend;
+		//give the pocket the correct value.
 		homePocket = new Button(String.valueOf(backend.getNumStones(Board.PLAYER2,  -1)));		homePocket.setShape(new Circle(RADIUS));
 		homePocket.setMaxWidth(WIDTH);
 		homePocket.setMinWidth(WIDTH);

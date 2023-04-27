@@ -46,6 +46,7 @@ public class PocketButtons extends GridPane implements EventHandler<ActionEvent>
 	public PocketButtons(Board backend, PlayerOneHomeButton player1HomeButton,
 			PlayerTwoHomeButton player2HomeButton, BottomMessage currentPlayer) throws Exception
 	{
+		//set instance variables
 		this.backend = backend;
 		this.player1HomeButton = player1HomeButton;
 		this.player2HomeButton = player2HomeButton;
@@ -54,11 +55,13 @@ public class PocketButtons extends GridPane implements EventHandler<ActionEvent>
 		player1Pockets = new Button[Board.NUM_POCKETS];
 		player2Pockets = new Button[Board.NUM_POCKETS];
 
+		//initialize each button in both arrays.
 		for(int i = 0; i < Board.NUM_POCKETS; i++)
 		{
 			player1Pockets[i] = new Button(String.valueOf(backend.getNumStones(Board.PLAYER1, i)));
 			player2Pockets[i] = new Button(String.valueOf(backend.getNumStones(Board.PLAYER2, i)));
 
+			//player 1 pockets
 			player1Pockets[i].setShape(new Circle(RADIUS));
 			player1Pockets[i].setMaxWidth(WIDTH);
 			player1Pockets[i].setMinWidth(WIDTH);
@@ -67,6 +70,7 @@ public class PocketButtons extends GridPane implements EventHandler<ActionEvent>
 			player1Pockets[i].setStyle(BROWN);
 			player1Pockets[i].setOnAction(this);
 
+			//player 2 pockets
 			player2Pockets[i].setShape(new Circle(RADIUS));
 			player2Pockets[i].setMaxWidth(WIDTH);
 			player2Pockets[i].setMinWidth(WIDTH);
@@ -76,6 +80,7 @@ public class PocketButtons extends GridPane implements EventHandler<ActionEvent>
 			player2Pockets[i].setOnAction(this);
 		}
 
+		//add all pockets to the GUI.
 		for(int i = 1; i < Board.NUM_POCKETS + 1; i++)
 		{
 			this.add(player2Pockets[i - 1], i, 0);
@@ -109,6 +114,10 @@ public class PocketButtons extends GridPane implements EventHandler<ActionEvent>
 		gameEnd.showAndWait();
 	}
 
+	/**
+	 * The handle method for PocketButtons, allows movements to happen
+	 * when buttons are clicked on.
+	 */
 	public void handle(ActionEvent event)
 	{
 		//logic to pass in correct value to moveStones
@@ -117,17 +126,22 @@ public class PocketButtons extends GridPane implements EventHandler<ActionEvent>
 
 		for(int i = 0; i < Board.NUM_POCKETS; i++)
 		{
+			//player 1's turn, only allow player 1 buttons to function
 			if(backend.getCurrentPlayer() == Board.PLAYER1 && !backend.getGameEnd())
 			{
+				//looping through 0 - 5, find which button was activated
 				if(event.getSource() == player1Pockets[i])
 				{
 					try
 					{
+						//moveStones is based on 1-6, so add 1 to i when button is located.
 						backend.moveStones(i + 1);
+						//call functions that update the buttons' values.
 						updateValues();
 						player1HomeButton.updateValue();
 						player2HomeButton.updateValue();
 						currentPlayer.updateText();
+						//check if the game ended after the move is complete.
 						if(backend.getGameEnd())
 						{
 							gameEndAlert();
@@ -142,17 +156,21 @@ public class PocketButtons extends GridPane implements EventHandler<ActionEvent>
 					}
 				}
 			}
+			//player 2's turn, only allow player 2 buttons to function
 			else if(backend.getCurrentPlayer() == Board.PLAYER2 && !backend.getGameEnd())
 			{
 				if(event.getSource() == player2Pockets[i])
 				{
 					try
 					{
+						//moveStones is based on 1-6, so add 1 to i when button is located.
 						backend.moveStones(i + 1);
+						//call functions that update the buttons' values.
 						updateValues();
 						player1HomeButton.updateValue();
 						player2HomeButton.updateValue();
 						currentPlayer.updateText();
+						//check if the game ended after the move is complete.
 						if(backend.getGameEnd())
 						{
 							gameEndAlert();

@@ -60,6 +60,11 @@ public interface BoardInterface
 	public int getNumStones(int player, int pocketNum) throws Exception;
 	
 	/**
+	 * creates a new pocketList so the board is reset to the beginning.
+	 */
+	public void resetBoard();
+	
+	/**
 	 * will take in an integer that refers to a pocket n spaces away from the
 	 * player's home pocket and perform a movement by that player.
 	 * @param pocketNum number of spaces away the chosen pocket is from the home.

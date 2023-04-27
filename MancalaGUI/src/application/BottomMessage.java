@@ -3,6 +3,11 @@ package application;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 
+/**
+ * The class that creates the message that specifies which player's turn it is.
+ * @author DC
+ * @version 4/27/23
+ */
 public class BottomMessage extends GridPane implements ButtonCodes
 {
 	/** the message at the top that shows current player */
@@ -18,8 +23,8 @@ public class BottomMessage extends GridPane implements ButtonCodes
 	public BottomMessage(Board backend)
 	{
 		this.backend = backend;
-		currentPlayer = new Label();
 		
+		currentPlayer = new Label();
 		currentPlayer.setStyle(LIGHT_BROWN);
 		currentPlayer.setText("  It's player " + backend.getCurrentPlayer()
 		+ "'s turn!");

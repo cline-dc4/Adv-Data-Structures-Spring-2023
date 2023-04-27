@@ -36,14 +36,17 @@ public class Main extends Application {
 	 * the constructor that is initializing all the pieces of the GUI
 	 */
 	public Main() {
-		try {
+		try 
+		{
 			backend = new Board();
 			bottomMessage = new BottomMessage(backend);
 			player1Home = new PlayerOneHomeButton(backend);
 			player2Home = new PlayerTwoHomeButton(backend);
 			pocketButtons = new PocketButtons(backend, player1Home, player2Home, bottomMessage);
 			topBar = new TopBar(backend, bottomMessage, pocketButtons, player1Home, player2Home);
-		} catch (Exception e) {
+		} 
+		catch (Exception e) 
+		{
 			Alert alert = new Alert(Alert.AlertType.ERROR);
 			alert.setTitle("Error creating game board.");
 			alert.setContentText(e.getMessage());
@@ -56,6 +59,7 @@ public class Main extends Application {
 			BorderPane root = new BorderPane();
 			Scene scene = new Scene(root, 400, 200);
 
+			//add all the GUI elements to the border pane.
 			primaryStage.setTitle("Mancala - DC Cline");
 			root.setCenter(pocketButtons);
 			root.setRight(player1Home);
