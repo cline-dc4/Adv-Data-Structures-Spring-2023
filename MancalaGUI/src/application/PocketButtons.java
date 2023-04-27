@@ -105,7 +105,7 @@ public class PocketButtons extends GridPane implements EventHandler<ActionEvent>
 				{
 					try
 					{
-						backend.moveStones(i);
+						backend.moveStones(i + 1);
 						updateValues();
 						player1HomeButton.updateValue();
 						player2HomeButton.updateValue();
@@ -125,7 +125,7 @@ public class PocketButtons extends GridPane implements EventHandler<ActionEvent>
 		{
 			for(int i = 0; i < Board.NUM_POCKETS - i; i++)
 			{
-				if(event.getSource() == player2Pockets[i])
+				if(event.getSource() == player2Pockets[i + 1])
 				{
 					try
 					{
