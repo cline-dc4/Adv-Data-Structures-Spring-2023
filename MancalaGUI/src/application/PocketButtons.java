@@ -16,24 +16,24 @@ public class PocketButtons extends GridPane implements EventHandler<ActionEvent>
 {
 	/** the pointer to the Board object. */
 	private Board backend;
-	
+
 	/** a pointer to the Player1HomeButton. */
 	private PlayerOneHomeButton player1HomeButton;
-	
+
 	/** a pointer to the Player2HomeButton. */
 	private PlayerTwoHomeButton player2HomeButton;
-	
+
 	/** a pointer to the label BottomMessage. */
 	private BottomMessage currentPlayer;
-	
+
 	/** array of Buttons that corresponds to the player 1 standard pockets. */
 	private Button[] player1Pockets;
-	
+
 	/** array of Buttons that corresponds to the player 2 standard pockets. */
 	private Button[] player2Pockets;
-	
-	
-	
+
+
+
 	/**
 	 * creates all the pockets that aren't the player home pockets.
 	 * @param backend a pointer to the Board object in the main.
@@ -50,15 +50,15 @@ public class PocketButtons extends GridPane implements EventHandler<ActionEvent>
 		this.player1HomeButton = player1HomeButton;
 		this.player2HomeButton = player2HomeButton;
 		this.currentPlayer = currentPlayer;
-		
+
 		player1Pockets = new Button[Board.NUM_POCKETS];
 		player2Pockets = new Button[Board.NUM_POCKETS];
-		
+
 		for(int i = 0; i < Board.NUM_POCKETS; i++)
 		{
 			player1Pockets[i] = new Button(String.valueOf(backend.getNumStones(Board.PLAYER1, i)));
 			player2Pockets[i] = new Button(String.valueOf(backend.getNumStones(Board.PLAYER2, i)));
-			
+
 			player1Pockets[i].setShape(new Circle(RADIUS));
 			player1Pockets[i].setMaxWidth(WIDTH);
 			player1Pockets[i].setMinWidth(WIDTH);
@@ -75,14 +75,14 @@ public class PocketButtons extends GridPane implements EventHandler<ActionEvent>
 			player2Pockets[i].setStyle(BROWN);
 			player2Pockets[i].setOnAction(this);
 		}
-		
+
 		for(int i = 1; i < Board.NUM_POCKETS + 1; i++)
 		{
 			this.add(player2Pockets[i - 1], i, 0);
 			this.add(player1Pockets[i - 1], i, 1);
 		}
 	}
-	
+
 	public void updateValues() throws Exception
 	{
 		for(int i = 0; i < Board.NUM_POCKETS; i++)
@@ -91,15 +91,16 @@ public class PocketButtons extends GridPane implements EventHandler<ActionEvent>
 			player2Pockets[i].setText(String.valueOf(backend.getNumStones(Board.PLAYER2, i)));
 		}
 	}
-	
+
 	public void handle(ActionEvent event)
 	{
 		//logic to pass in correct value to moveStones
 		//while not allowing players to click pockets when
 		//it isn't their turn.
-		if(backend.getCurrentPlayer() == Board.PLAYER1)
+
+		for(int i = 0; i < Board.NUM_POCKETS; i++)
 		{
-			for(int i = 0; i < Board.NUM_POCKETS; i++)
+			if(backend.getCurrentPlayer() == Board.PLAYER1)
 			{
 				if(event.getSource() == player1Pockets[i])
 				{
@@ -120,16 +121,13 @@ public class PocketButtons extends GridPane implements EventHandler<ActionEvent>
 					}
 				}
 			}
-		}
-		else
-		{
-			for(int i = 0; i < Board.NUM_POCKETS - i; i++)
+			else
 			{
-				if(event.getSource() == player2Pockets[i + 1])
+				if(event.getSource() == player2Pockets[i])
 				{
 					try
 					{
-						backend.moveStones(i);
+						backend.moveStones(i + 1);
 						updateValues();
 						player1HomeButton.updateValue();
 						player2HomeButton.updateValue();
@@ -138,7 +136,7 @@ public class PocketButtons extends GridPane implements EventHandler<ActionEvent>
 					catch(Exception e)
 					{
 						Alert alert = new Alert(Alert.AlertType.ERROR);
-						alert.setTitle("Error!");
+						alert.setTitle("Error moving");
 						alert.setContentText(e.getMessage());
 						alert.showAndWait();
 					}
