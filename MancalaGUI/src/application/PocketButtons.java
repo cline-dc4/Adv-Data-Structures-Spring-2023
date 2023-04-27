@@ -10,7 +10,7 @@ import javafx.scene.shape.Circle;
 /**
  * creates the gameBoard of buttons for the GUI.
  * @author DC
- * @version 4/26/23
+ * @version 4/27/23
  */
 public class PocketButtons extends GridPane implements EventHandler<ActionEvent>, ButtonCodes
 {
@@ -83,6 +83,10 @@ public class PocketButtons extends GridPane implements EventHandler<ActionEvent>
 		}
 	}
 
+	/**
+	 * updates the values on the buttons so they are consistent with the backend.
+	 * @throws Exception from the getNumStones method in Board.
+	 */
 	public void updateValues() throws Exception
 	{
 		for(int i = 0; i < Board.NUM_POCKETS; i++)
@@ -90,6 +94,19 @@ public class PocketButtons extends GridPane implements EventHandler<ActionEvent>
 			player1Pockets[i].setText(String.valueOf(backend.getNumStones(Board.PLAYER1, i)));
 			player2Pockets[i].setText(String.valueOf(backend.getNumStones(Board.PLAYER2, i)));
 		}
+	}
+
+	/**
+	 * creates an alert that shows the winner of the game and disables the buttons.
+	 * @throws Exception an exception from Board's method getNumStones.
+	 */
+	public void gameEndAlert() throws Exception
+	{
+		Alert gameEnd = new Alert(Alert.AlertType.INFORMATION);
+		gameEnd.setTitle("End of the Game");
+		gameEnd.setContentText("Player " + backend.showWinner() + " won!\n" +
+				"The score is " + backend.getNumStones(1, -1) + " - " + backend.getNumStones(2, -1));
+		gameEnd.showAndWait();
 	}
 
 	public void handle(ActionEvent event)
@@ -100,7 +117,7 @@ public class PocketButtons extends GridPane implements EventHandler<ActionEvent>
 
 		for(int i = 0; i < Board.NUM_POCKETS; i++)
 		{
-			if(backend.getCurrentPlayer() == Board.PLAYER1)
+			if(backend.getCurrentPlayer() == Board.PLAYER1 && !backend.getGameEnd())
 			{
 				if(event.getSource() == player1Pockets[i])
 				{
@@ -111,6 +128,10 @@ public class PocketButtons extends GridPane implements EventHandler<ActionEvent>
 						player1HomeButton.updateValue();
 						player2HomeButton.updateValue();
 						currentPlayer.updateText();
+						if(backend.getGameEnd())
+						{
+							gameEndAlert();
+						}
 					}
 					catch(Exception e)
 					{
@@ -121,7 +142,7 @@ public class PocketButtons extends GridPane implements EventHandler<ActionEvent>
 					}
 				}
 			}
-			else
+			else if(backend.getCurrentPlayer() == Board.PLAYER2 && !backend.getGameEnd())
 			{
 				if(event.getSource() == player2Pockets[i])
 				{
@@ -132,6 +153,10 @@ public class PocketButtons extends GridPane implements EventHandler<ActionEvent>
 						player1HomeButton.updateValue();
 						player2HomeButton.updateValue();
 						currentPlayer.updateText();
+						if(backend.getGameEnd())
+						{
+							gameEndAlert();
+						}
 					}
 					catch(Exception e)
 					{
@@ -144,5 +169,4 @@ public class PocketButtons extends GridPane implements EventHandler<ActionEvent>
 			}
 		}
 	}
-
 }

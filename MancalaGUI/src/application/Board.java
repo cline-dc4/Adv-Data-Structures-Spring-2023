@@ -86,6 +86,14 @@ public class Board implements BoardInterface
 			return currentPocket.getNumStones();
 		}
 	}
+	
+	/**
+	 * creates a new pocketList so the board is reset to the beginning.
+	 */
+	public void resetBoard()
+	{
+		gameBoard = new PocketList(PLAYER1, PLAYER2);
+	}
 
 	public void moveStones(int pocketNum) throws Exception
 	{

@@ -4,7 +4,7 @@ package application;
  * This class handles all the logic of the game, and will contain
  * methods for all the rules and moves the player follows and can make.
  * @author DC
- * @version 4/26/23
+ * @version 4/27/23
  */
 public interface BoardInterface 
 {
