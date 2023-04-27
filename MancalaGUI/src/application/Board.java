@@ -38,6 +38,55 @@ public class Board implements BoardInterface
 		return currentPlayer;
 	}
 
+	public int getNumStones(int player, int pocketNum) throws Exception
+	{
+
+		//throw exceptions for invalid input.
+		if(player != PLAYER1 && player != PLAYER2)
+		{
+			throw new Exception("Invalid number for player.");
+		}
+		if(pocketNum < -1 || pocketNum > NUM_POCKETS)
+		{
+			throw new Exception("Invalid pocket number");
+		}
+
+		//if pocketNum == -1, return that player's home pocket's numStones.
+		if(pocketNum == -1 && player == PLAYER1)
+		{
+			return gameBoard.getPlayer1Home().getNumStones();
+		}
+		else if(pocketNum == -1 && player == PLAYER2)
+		{
+			return gameBoard.getPlayer2Home().getNumStones();
+		}
+		//pointer for traversing PocketList
+		Pocket currentPocket;
+
+		//access a pocket owned by player 1
+		if(player == PLAYER1)
+		{
+			currentPocket = gameBoard.getPlayer2Home();
+			//navigate to correct pocket
+			for(int i = 0; i <= pocketNum; i++)
+			{
+				currentPocket = currentPocket.getNext();
+			}
+			return currentPocket.getNumStones();
+		}
+		//access a pocket owned by player 2
+		else
+		{
+			currentPocket = gameBoard.getPlayer1Home();
+			//navigate to correct pocket
+			for(int i = 0; i <= ((NUM_POCKETS - 1) - pocketNum); i++)
+			{
+				currentPocket = currentPocket.getNext();
+			}
+			return currentPocket.getNumStones();
+		}
+	}
+
 	public void moveStones(int pocketNum) throws Exception
 	{
 		//check if pocket number is valid
@@ -92,7 +141,7 @@ public class Board implements BoardInterface
 		}
 
 		//check if the move triggers any special rules.
-		
+
 		//capture if turn ends on current player's side in an empty pocket.
 		if(turnPocket.getNumStones() == 1 && !turnPocket.isHomePocket() && 
 				turnPocket.getCapturePocket().getNumStones() > 0 && turnPocket.getOwner() == currentPlayer)

@@ -3,6 +3,7 @@ package application;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.BorderPane;
 
 /**
@@ -10,20 +11,41 @@ import javafx.scene.layout.BorderPane;
  * @author DC
  * @version 4/26/23
  */
-public class Main extends Application 
+public class Main extends Application
 {
-	// TODO create classes for each part of the GUI,
-	// TODO buttons for the game board
 	// TODO menubar for newGame and close game.
 	// TODO label that describes instructions
 	// TODO alert for end of game and winner
 	// TODO maybe add a delay showing the motion of the stones?(just to annoy Crissy and Jordan lol)
 	
+	/** the backend/logic for the mancala game */
+	private Board backend;
+	
+	/** the normal pockets that make up the game board */
 	private PocketButtons pocketButtons;
 	
+	/** player 1's home pocket */
+	private PlayerOneHomeButton player1Home;
+	
+	/** player 2's home pocket */
+	private PlayerTwoHomeButton player2Home;
 	public Main()
 	{
-		pocketButtons = new PocketButtons();
+		try
+		{
+		backend = new Board();
+		player1Home = new PlayerOneHomeButton(backend);
+		player2Home = new PlayerTwoHomeButton(backend);
+		pocketButtons = new PocketButtons(backend, player1Home, player2Home);
+
+		}
+		catch(Exception e)
+		{
+			Alert alert = new Alert(Alert.AlertType.ERROR);
+			alert.setTitle("Error creating game board.");
+			alert.setContentText(e.getMessage());
+			alert.showAndWait();
+		}
 	}
 	
 	public void start(Stage primaryStage) 
@@ -31,9 +53,13 @@ public class Main extends Application
 		try 
 		{
 			BorderPane root = new BorderPane();
-			Scene scene = new Scene(root,420,200);
+			Scene scene = new Scene(root,400,200);
 			
+			primaryStage.setTitle("Mancala - DC Cline");
 			root.setCenter(pocketButtons);
+			root.setRight(player1Home);
+			root.setLeft(player2Home);
+			root.setStyle(ButtonCodes.LIGHT_BROWN);
 			
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
@@ -41,7 +67,10 @@ public class Main extends Application
 		} 
 		catch(Exception e) 
 		{
-			e.printStackTrace();
+			Alert alert = new Alert(Alert.AlertType.ERROR);
+			alert.setTitle("Error!");
+			alert.setContentText(e.getMessage());
+			alert.showAndWait();
 		}
 	}
 	

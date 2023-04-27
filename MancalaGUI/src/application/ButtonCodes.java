@@ -22,17 +22,11 @@ public interface ButtonCodes
 	/** the height used for setting maxWidth and minWidth of home pockets */
 	public static int HOME_HEIGHT = 100;
 	
-	public static String STANDARD_POCKET = 
-			"-fx-background-radius: 5em; " +
-			"-fx-min-width: 150px; " +
-			"-fx-min-height: 150px; " +
-			"-fx-max-width: 150px; " +
-			"-fx-max-height: 150px; ";
+	public static String BROWN = 
+			"-fx-background-color: #964B00; " +
+			"-fx-font: 20 px; " +
+			"-fx-text-fill: #FFFFFF; ";
 			
-	public static String HOME_POCKET = 			
-			"-fx-background-radius: 5em; " +
-			"-fx-min-width: 150px; " +
-			"-fx-min-height: 300px; " +
-			"-fx-max-width: 150px; " +
-			"-fx-max-height: 300px; ";
+	public static String LIGHT_BROWN = 			
+			"-fx-background-color: #C19A6B; ";
 }

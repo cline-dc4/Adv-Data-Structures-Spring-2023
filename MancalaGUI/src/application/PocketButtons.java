@@ -13,60 +13,62 @@ import javafx.scene.shape.Circle;
  */
 public class PocketButtons extends GridPane implements EventHandler<ActionEvent>, ButtonCodes
 {
+	/** the pointer to the Board object. */
+	private Board backend;
+	
+	/** a pointer to the Player1HomeButton. */
+	private PlayerOneHomeButton player1HomeButton;
+	
+	/** a pointer to the Player2HomeButton. */
+	private PlayerTwoHomeButton player2HomeButton;
+	
 	/** array of Buttons that corresponds to the player 1 standard pockets. */
 	private Button[] player1Pockets;
 	
 	/** array of Buttons that corresponds to the player 2 standard pockets. */
 	private Button[] player2Pockets;
 	
-	/** Button that corresponds to the player 1 home pocket. */
-	private Button player1HomePocket;
 	
-	/** Button that corresponds to the player 2 home pocket. */
-	private Button player2HomePocket;
 	
 	/**
-	 * the constructor that initializes the game board on the GUI.
+	 * creates all the pockets that aren't the player home pockets.
+	 * @param backend a pointer to the Board object in the main.
+	 * @param player1HomeButton a pointer to the player 1 home button.
+	 * @param player2HomeButton a pointer to the player 2 home button.
+	 * @throws Exception from the Board class method getNumStones.
 	 */
-	public PocketButtons()
+
+	public PocketButtons(Board backend, PlayerOneHomeButton player1HomeButton,
+			PlayerTwoHomeButton player2HomeButton) throws Exception
 	{
+		this.backend = backend;
+		this.player1HomeButton = player1HomeButton;
+		this.player2HomeButton = player2HomeButton;
+		
 		player1Pockets = new Button[Board.NUM_POCKETS];
 		player2Pockets = new Button[Board.NUM_POCKETS];
 		
 		for(int i = 0; i < Board.NUM_POCKETS; i++)
 		{
-			player1Pockets[i] = new Button();
+			player1Pockets[i] = new Button(String.valueOf(backend.getNumStones(Board.PLAYER1, i)));
+			player2Pockets[i] = new Button(String.valueOf(backend.getNumStones(Board.PLAYER2, i)));
+			
 			player1Pockets[i].setShape(new Circle(RADIUS));
 			player1Pockets[i].setMaxWidth(WIDTH);
 			player1Pockets[i].setMinWidth(WIDTH);
 			player1Pockets[i].setMaxHeight(HEIGHT);
 			player1Pockets[i].setMinHeight(HEIGHT);
-			
-			player2Pockets[i] = new Button();
+			player1Pockets[i].setStyle(BROWN);
+			player1Pockets[i].setOnAction(this);
+
 			player2Pockets[i].setShape(new Circle(RADIUS));
 			player2Pockets[i].setMaxWidth(WIDTH);
 			player2Pockets[i].setMinWidth(WIDTH);
 			player2Pockets[i].setMaxHeight(HEIGHT);
 			player2Pockets[i].setMinHeight(HEIGHT);
+			player2Pockets[i].setStyle(BROWN);
+			player2Pockets[i].setOnAction(this);
 		}
-		
-		player1HomePocket = new Button();
-		player1HomePocket.setShape(new Circle(HOME_RADIUS));
-		player1HomePocket.setMaxWidth(WIDTH);
-		player1HomePocket.setMinWidth(WIDTH);
-		player1HomePocket.setMaxHeight(HOME_HEIGHT);
-		player1HomePocket.setMinHeight(HOME_HEIGHT);
-		
-		
-		player2HomePocket = new Button();
-		player2HomePocket.setShape(new Circle(HOME_RADIUS));
-		player2HomePocket.setMaxWidth(WIDTH);
-		player2HomePocket.setMinWidth(WIDTH);
-		player2HomePocket.setMaxHeight(HOME_HEIGHT);
-		player2HomePocket.setMinHeight(HOME_HEIGHT);
-		
-		this.add(player1HomePocket, 0, 0);
-		this.add(player2HomePocket, (Board.NUM_POCKETS + 1), 0);
 		
 		for(int i = 1; i < Board.NUM_POCKETS + 1; i++)
 		{
@@ -75,6 +77,14 @@ public class PocketButtons extends GridPane implements EventHandler<ActionEvent>
 		}
 	}
 	
+	public void updateValues() throws Exception
+	{
+		for(int i = 0; i < Board.NUM_POCKETS; i++)
+		{
+			player1Pockets[i].setText(String.valueOf(backend.getNumStones(Board.PLAYER1, i)));
+			player2Pockets[i].setText(String.valueOf(backend.getNumStones(Board.PLAYER1, i)));
+		}
+	}
 	
 	public void handle(ActionEvent event) 
 	{
