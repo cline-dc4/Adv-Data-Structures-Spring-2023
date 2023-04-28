@@ -60,7 +60,7 @@ public class Main extends Application
 		try 
 		{
 			BorderPane root = new BorderPane();
-			Scene scene = new Scene(root, 400, 200);
+			Scene scene = new Scene(root, 600, 250);
 
 			//add all the GUI elements to the border pane.
 			primaryStage.setTitle("Mancala - DC Cline");
