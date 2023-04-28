@@ -10,7 +10,7 @@ import javafx.scene.shape.Circle;
 /**
  * creates the gameBoard of buttons for the GUI.
  * @author DC
- * @version 4/27/23
+ * @version 4/28/23
  */
 public class PocketButtons extends GridPane implements EventHandler<ActionEvent>, ButtonCodes
 {
@@ -18,10 +18,10 @@ public class PocketButtons extends GridPane implements EventHandler<ActionEvent>
 	private Board backend;
 
 	/** a pointer to the Player1HomeButton. */
-	private PlayerOneHomeButton player1HomeButton;
+	private PlayerHomeButton player1HomeButton;
 
 	/** a pointer to the Player2HomeButton. */
-	private PlayerTwoHomeButton player2HomeButton;
+	private PlayerHomeButton player2HomeButton;
 
 	/** a pointer to the label BottomMessage. */
 	private BottomMessage currentPlayer;
@@ -43,8 +43,8 @@ public class PocketButtons extends GridPane implements EventHandler<ActionEvent>
 	 * @throws Exception from the Board class method getNumStones.
 	 */
 
-	public PocketButtons(Board backend, PlayerOneHomeButton player1HomeButton,
-			PlayerTwoHomeButton player2HomeButton, BottomMessage currentPlayer) throws Exception
+	public PocketButtons(Board backend, PlayerHomeButton player1HomeButton,
+			PlayerHomeButton player2HomeButton, BottomMessage currentPlayer) throws Exception
 	{
 		//set instance variables
 		this.backend = backend;

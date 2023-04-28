@@ -7,10 +7,12 @@ import javafx.scene.shape.Circle;
 /**
  * creates a button to display player 1's home pocket
  * @author DC
- * @version 4/27/23
+ * @version 4/28/23
  */
-public class PlayerOneHomeButton extends GridPane implements ButtonCodes
+public class PlayerHomeButton extends GridPane implements ButtonCodes
 {
+	/** the player number of the home pocket. */
+	private int player;
 	/** the home pocket for Player 1 */
 	private Button homePocket;
 	
@@ -22,11 +24,12 @@ public class PlayerOneHomeButton extends GridPane implements ButtonCodes
 	 * @param backend a pointer to the Board object in the main
 	 * @throws Exception from the Board class method getNumStones.
 	 */
-	public PlayerOneHomeButton(Board backend) throws Exception
+	public PlayerHomeButton(Board backend, int player) throws Exception
 	{
 		this.backend = backend;
+		this.player = player;
 		//give the pocket the correct value.
-		homePocket = new Button(String.valueOf(backend.getNumStones(Board.PLAYER1,  -1)));
+		homePocket = new Button(String.valueOf(backend.getNumStones(player,  -1)));
 		homePocket.setShape(new Circle(RADIUS));
 		homePocket.setMaxWidth(WIDTH);
 		homePocket.setMinWidth(WIDTH);
@@ -43,6 +46,6 @@ public class PlayerOneHomeButton extends GridPane implements ButtonCodes
 	 */
 	public void updateValue() throws Exception
 	{
-		homePocket.setText(String.valueOf(backend.getNumStones(Board.PLAYER1,  -1)));
+		homePocket.setText(String.valueOf(backend.getNumStones(player,  -1)));
 	}
 }

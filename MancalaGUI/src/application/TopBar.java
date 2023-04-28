@@ -11,7 +11,7 @@ import javafx.scene.layout.GridPane;
 /**
  * The class that creates the menu bar at the top of the GUI
  * @author DC
- * @version 4/27/23
+ * @version 4/28/23
  */
 public class TopBar extends GridPane implements EventHandler<ActionEvent>
 {
@@ -22,19 +22,19 @@ public class TopBar extends GridPane implements EventHandler<ActionEvent>
 	private MenuItem quit;
 
 	/** a pointer to the Board object in Main. */
-	Board backend;
+	private Board backend;
 
 	/** a pointer to the BottomMessage object in Main. */
-	BottomMessage bottomMessage;
+	private BottomMessage bottomMessage;
 
 	/** a pointer to the pocketButtons object in Main. */
-	PocketButtons pocketButtons;
+	private PocketButtons pocketButtons;
 
 	/** a pointer to the PlayerOneHomeButton object in Main. */
-	PlayerOneHomeButton player1Home;
+	private PlayerHomeButton player1Home;
 
 	/** a pointer to the PlayerTwoHomeButton object in Main. */
-	PlayerTwoHomeButton player2Home;
+	private PlayerHomeButton player2Home;
 
 
 	/**
@@ -46,7 +46,7 @@ public class TopBar extends GridPane implements EventHandler<ActionEvent>
 	 * @param player2Home a pointer to the PlayerTwoHomeButton object in Main.
 	 */
 	public TopBar(Board backend, BottomMessage bottomMessage, PocketButtons pocketButtons,
-			PlayerOneHomeButton player1Home, PlayerTwoHomeButton player2Home)
+			PlayerHomeButton player1Home, PlayerHomeButton player2Home)
 	{
 		//set all pointers to point to the correct places.
 		this.backend = backend;
