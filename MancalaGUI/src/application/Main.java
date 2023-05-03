@@ -19,7 +19,9 @@ public class Main extends Application
 	/** the backend/logic for the mancala game */
 	private Board backend;
 
+	/** The label at the bottom of the GUI that says whose turn it is */
 	private BottomMessage bottomMessage;
+	
 	/** the normal pockets that make up the game board */
 	private PocketButtons pocketButtons;
 
